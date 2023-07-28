@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IG.API.SUNAT.RUC", "IG.API.SUNAT.RUC\IG.API.SUNAT.RUC.csproj", "{E1101118-B8F7-4714-AF14-BE6658971660}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IG.API.SUNAT.RUC", "IG.API.SUNAT.RUC\IG.API.SUNAT.RUC.csproj", "{E1101118-B8F7-4714-AF14-BE6658971660}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IG.API.Test", "IG.API.Test\IG.API.Test.csproj", "{D74F02E4-C70A-4779-B226-C538FF27B603}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{E1101118-B8F7-4714-AF14-BE6658971660}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1101118-B8F7-4714-AF14-BE6658971660}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1101118-B8F7-4714-AF14-BE6658971660}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D74F02E4-C70A-4779-B226-C538FF27B603}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D74F02E4-C70A-4779-B226-C538FF27B603}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D74F02E4-C70A-4779-B226-C538FF27B603}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D74F02E4-C70A-4779-B226-C538FF27B603}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

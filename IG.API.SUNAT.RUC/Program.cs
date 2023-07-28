@@ -1,7 +1,10 @@
+using IG.API.SUNAT.RUC.Service;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+// ...otros servicios
+builder.Services.AddScoped<ContribuyenteService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

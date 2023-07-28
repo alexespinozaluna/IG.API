@@ -1,0 +1,13 @@
+D:\Proyectos\NET\C#\IG.API\IG.API.Test\bin\Debug\selenium-manager\linux\selenium-manager
+D:\Proyectos\NET\C#\IG.API\IG.API.Test\bin\Debug\selenium-manager\macos\selenium-manager
+D:\Proyectos\NET\C#\IG.API\IG.API.Test\bin\Debug\selenium-manager\windows\selenium-manager.exe
+D:\Proyectos\NET\C#\IG.API\IG.API.Test\bin\Debug\IG.API.Test.exe.config
+D:\Proyectos\NET\C#\IG.API\IG.API.Test\bin\Debug\IG.API.Test.exe
+D:\Proyectos\NET\C#\IG.API\IG.API.Test\bin\Debug\IG.API.Test.pdb
+D:\Proyectos\NET\C#\IG.API\IG.API.Test\bin\Debug\WebDriver.dll
+D:\Proyectos\NET\C#\IG.API\IG.API.Test\obj\Debug\IG.API.Test.csproj.AssemblyReference.cache
+D:\Proyectos\NET\C#\IG.API\IG.API.Test\obj\Debug\IG.API.Test.csproj.SuggestedBindingRedirects.cache
+D:\Proyectos\NET\C#\IG.API\IG.API.Test\obj\Debug\IG.API.Test.csproj.CoreCompileInputs.cache
+D:\Proyectos\NET\C#\IG.API\IG.API.Test\obj\Debug\IG.API.Test.csproj.CopyComplete
+D:\Proyectos\NET\C#\IG.API\IG.API.Test\obj\Debug\IG.API.Test.exe
+D:\Proyectos\NET\C#\IG.API\IG.API.Test\obj\Debug\IG.API.Test.pdb
