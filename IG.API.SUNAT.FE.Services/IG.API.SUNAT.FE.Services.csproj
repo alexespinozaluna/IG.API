@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IG.API.SUNAT.FE.Dto\IG.API.SUNAT.FE.Dto.csproj" />
+    <ProjectReference Include="..\IG.API.SUNAT.FE.Entity\IG.API.SUNAT.FE.Entity.csproj" />
+    <ProjectReference Include="..\IG.API.SUNAT.FE.Repository\IG.API.SUNAT.FE.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

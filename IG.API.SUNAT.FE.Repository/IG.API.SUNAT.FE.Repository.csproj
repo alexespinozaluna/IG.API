@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.15" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IG.API.SUNAT.FE.Dto\IG.API.SUNAT.FE.Dto.csproj" />
+    <ProjectReference Include="..\IG.API.SUNAT.FE.Entity\IG.API.SUNAT.FE.Entity.csproj" />
+    <ProjectReference Include="..\IG.API.SUNAT.FE.Persistence\IG.API.SUNAT.FE.Persistence.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "W7J69+kgiqqSHXUX0QKGdkQ6q13UsZ+ZfLkKenNUGyw=",
+  "Source": "IG.API.SUNAT.FE",
+  "BasePath": "_content/IG.API.SUNAT.FE",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
