@@ -58,7 +58,7 @@ namespace IG.API.SUNAT.FE.Services.Util
             var _response = new ApiResponse();
             _response.EmpresaId = apiInfo.IdmaeEmpresa;
             // Reemplazar los parametros
-            apiInfo.ApiURL = ReplaceNameValue(apiInfo.ApiURL, parameters);
+            apiInfo.ApiURL = await ReplaceNameValueAsync(apiInfo.ApiURL, parameters);
             _response.ApiUrlSend = apiInfo.ApiURL;
             _response.ApiEndPointId = apiInfo.Id;
 
@@ -78,7 +78,7 @@ namespace IG.API.SUNAT.FE.Services.Util
                 if (!string.IsNullOrEmpty(apiInfo.RequestBody))
                 {
                     // Reemplazar los parametros
-                    apiInfo.RequestBody = ReplaceNameValue(apiInfo.RequestBody, parameters);
+                    apiInfo.RequestBody = await ReplaceNameValueAsync(apiInfo.RequestBody, parameters);
 
                     byte[] bodyBytes = Encoding.UTF8.GetBytes(apiInfo.RequestBody);
                     request.ContentType = apiInfo.ContentType;
@@ -141,17 +141,19 @@ namespace IG.API.SUNAT.FE.Services.Util
             return extension == ".txt" || extension == ".xml" || extension == ".json";
         }
 
-        public string ReplaceNameValue(string inputString, Dictionary<string, string> replacements)
+        public async  Task<string> ReplaceNameValueAsync(string inputString, Dictionary<string, string> replacements)
         {
-            if (inputString.Contains('{'))
-            {
-                foreach (var val in replacements)
+          return  await Task.Run(() => {
+                if (inputString.Contains('{'))
                 {
-                    inputString = inputString.Replace("{" + val.Key + "}", val.Value);
+                    foreach (var val in replacements)
+                    {
+                        inputString = inputString.Replace("{" + val.Key + "}", val.Value);
+                    }
                 }
-            }
 
-            return inputString;
+                return inputString;
+            });
         }
 
         public async Task<FileResponse> ExtractAllFileFromZipAsync(string Base64Zip, string fileNameTxt)
@@ -354,34 +356,34 @@ namespace IG.API.SUNAT.FE.Services.Util
             return soapResponse;
         }
 
-        public async Task<XmlDocument> DescomprimirXmlAsync(string base64Reponse)
-        {
-            var xml = new XmlDocument();
+        //public async Task<XmlDocument> DescomprimirXmlAsync(string base64Reponse)
+        //{
+        //    var xml = new XmlDocument();
 
-            using (var memRespuesta = new MemoryStream(Convert.FromBase64String(base64Reponse)))
-            {
-                using (System.IO.Compression.ZipArchive zipFile =
-                    new System.IO.Compression.ZipArchive(memRespuesta, System.IO.Compression.ZipArchiveMode.Read))
-                {
-                    foreach (System.IO.Compression.ZipArchiveEntry entry in zipFile.Entries)
-                    {
-                        if (!entry.Name.EndsWith(".xml"))
-                            continue;
+        //    using (var memRespuesta = new MemoryStream(Convert.FromBase64String(base64Reponse)))
+        //    {
+        //        using (System.IO.Compression.ZipArchive zipFile =
+        //            new System.IO.Compression.ZipArchive(memRespuesta, System.IO.Compression.ZipArchiveMode.Read))
+        //        {
+        //            foreach (System.IO.Compression.ZipArchiveEntry entry in zipFile.Entries)
+        //            {
+        //                if (!entry.Name.EndsWith(".xml"))
+        //                    continue;
 
-                        using (Stream ms = entry.Open())
-                        {
-                            using (var reader = new StreamReader(ms))
-                            {
-                                var responseString = await reader.ReadToEndAsync();
-                                xml.LoadXml(responseString);
-                            }
-                        }
-                    }
-                }
-            }
+        //                using (Stream ms = entry.Open())
+        //                {
+        //                    using (var reader = new StreamReader(ms))
+        //                    {
+        //                        var responseString = await reader.ReadToEndAsync();
+        //                        xml.LoadXml(responseString);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
 
-            return xml;
-        }
+        //    return xml;
+        //}
 
         public async Task<XmlRes> DescomprimirXmlAndToBase64Async(string base64Reponse)
         {
@@ -418,6 +420,7 @@ namespace IG.API.SUNAT.FE.Services.Util
 
                                 xmlRes.XmlDoc = xml;
                                 xmlRes.XmlFileBase64 = xmlBase64;
+                                xmlRes.Text = responseString;
                             }
                         }
                     }
@@ -553,6 +556,16 @@ namespace IG.API.SUNAT.FE.Services.Util
                 sb.AppendFormat("{0:x2}", bytes[i]);
 
             return sb.ToString();
+        }
+
+        public async Task<string> CifrarSha512(string clave)
+        {
+            System.Security.Cryptography.SHA512Managed _Cifrador = new System.Security.Cryptography.SHA512Managed();
+            byte[] _ContraseñaOriginal = Encoding.ASCII.GetBytes(clave);
+            byte[] _ContraseñaCifrada = _Cifrador.ComputeHash(_ContraseñaOriginal);
+            var base64 = Convert.ToBase64String(_ContraseñaCifrada);
+
+            return base64;
         }
     }
 }

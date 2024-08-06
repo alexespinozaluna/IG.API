@@ -1,0 +1,396 @@
+﻿@attribute [Authorize]
+@page "/comprobantes"
+@using IG.API.SUNAT.FE.Dto
+@using IG.API.SUNAT.Web.Pages.Combos
+@using System.Xml.Serialization
+@using global::API.API.SUNAT.Xml
+@using global::API.API.SUNAT.Xml.FE
+@inject ISUNAT_FE_ComprobanteService _service
+@inject IApiUtil _util
+@inject IEmailService _serviceEmail
+@inject IEmailConfigService _serviceEmailConfig
+@inject ItdHTMLService _serviceHtml
+@inject IEmpresaService _serviceEmpresa
+@inject IJSRuntime JS
+@inject SweetAlertService swal
+
+@inject ProveedorAutenticacion CustomAuthStateProvider
+<PageTitle>Compobantes @filter.FechaInicio.ToString("yyyy-MM-dd") - @filter.FechaFin.ToString("yyyy-MM-dd") </PageTitle>
+
+<div class="mb-3 row">
+    <div class="mb-3 col-4">
+        <label class="form-label">Empresa</label>
+        <EmpresaSelect TValue="int" SelectedValue="filter.IdmaeEmpresa" SelectedValueChanged="OnEmpresaSelectChanged" IsDisabled="@(!IsAdmin)" />
+    </div>
+    <div class="mb-3 col-4">
+        <label class="form-label">F. Inicio</label>
+        <input type="date" @bind-value="filter.FechaInicio" class="form-control">
+    </div>
+    <div class="mb-3 col-4">
+        <label class="form-label">F. Fin</label>
+        <input type="date" @bind-value="filter.FechaFin" class="form-control">
+    </div>
+
+    <div class="mb-3 col-4">
+        <label class="form-label"></label>
+        <button class="btn btn-primary mb-3 form-control" @onclick="Consultar">Consultar</button>
+    </div>
+</div>
+<div class="row">
+    @if (bExisteData)
+    {
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Codigo</th>
+                    <th scope="col">Mensaje</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Observación</th>
+                    <th scope="col">Ticket</th>
+                    <th scope="col">Id Comp</th>
+                    <th scope="col">F.H. Proc</th>
+                    <th scope="col">F.H. Creacion</th>
+                    <th scope="col">Archivos</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (SUNAT_FE_Comprobante item in comprobante)
+                {
+                    <tr>
+                        <th scope="row">@item.Id</th>
+                        <td>@item.nomArchivo</td>
+                        <td>@item.Codigo</td>
+                        <td>
+                            @if (@item.Mensaje?.ToString().Length > 0)
+                            {
+
+                                var idModal = @getIdModal(@item.Id);
+                                var idModalCall = $"#{idModal}";
+
+                                <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="@idModalCall">Ver...</button>
+                                <div class="modal fade" id="@idModal" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Mensaje</h5>
+                                                <button class="btn-close"
+                                                        type="button"
+                                                        data-bs-dismiss="modal"
+                                                        aria-label="Close">
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                @item.Mensaje
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cerrar</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            }
+                        </td>
+                        <td>@item.Descripcion </td>
+                        <td>
+                            @if (item.Observacion?.ToString().Length > 0)
+                            {
+
+                                var idModal = @getIdModal(item.Id.ToString() + "Observacion");
+                                var idModalCall = $"#{idModal}";
+
+                                <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="@idModalCall">Ver...</button>
+                                <div class="modal fade" id="@idModal" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Mensaje</h5>
+                                                <button class="btn-close"
+                                                        type="button"
+                                                        data-bs-dismiss="modal"
+                                                        aria-label="Close">
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                @item.Observacion
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cerrar</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            }
+
+                        </td>
+                        <td>@item.Ticket</td>
+                        <td>@item.IdComprobante</td>
+                        <td>@item.dtFechaHoraProceso</td>
+                        <td>@item.FechaCreacion</td>
+                        <td>
+                            @{
+                                string tipo = @item.nomArchivo.ToString();
+                                if (string.IsNullOrEmpty(tipo))
+                                    tipo = "123456789987456321";
+                                else
+                                    tipo = tipo.Substring(15, 1);
+                            }
+                            <div class="d-inline">
+                                @if (tipo == "F" || tipo == "B")
+                                {
+                                    // <a href="/Home/ComprobantePDF?IdComprobanteVenta=@item.IdComprobante&nomArchivo=@item.nomArchivo" class="btn btn-outline-primary btn-sm">pdf</a>
+
+                                }
+
+
+                                @if (!string.IsNullOrEmpty(item.xmlFirmado?.ToString()))
+                                {
+
+                                    <button @onclick="(()=>DescargarXml(item.xmlFirmado,item.nomArchivo))" class="btn  btn-outline-secondary btn-sm">xml</button>
+                                }
+
+                                @if (!string.IsNullOrEmpty(item.XmlCdr?.ToString()))
+                                {
+                                    <button @onclick="(()=>DescargarXml(item.XmlCdr,item.nomArchivo, true))" class="btn btn-outline-success btn-sm">cdr</button>
+                                }
+
+                                <button @onclick="(()=>SendMail(item))" class="btn  btn-outline-warning btn-sm">Send</button>
+                                <button @onclick="(()=>LeerXMl(item))" class="btn  btn-outline-warning btn-sm">Leer</button>
+
+                            </div>
+
+
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    }
+
+</div>
+
+@code {
+    public bool bExisteData { get; set; } = false;
+
+    private ComprobanteFilterDto filter { get; set; } = new ComprobanteFilterDto();
+    private ICollection<SUNAT_FE_Comprobante> comprobante { get; set; }
+
+
+    private bool IsAdmin { get; set; } = false;
+    public int IdmaeEmpresa { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var today = DateTime.Today;
+        filter.FechaInicio = today.AddMonths(-1);
+        filter.FechaFin = today;
+
+
+        var auth = CustomAuthStateProvider.GetUserSession();
+        if (auth != null)
+        {
+            IdmaeEmpresa = auth.Id;
+            filter.IdmaeEmpresa = IdmaeEmpresa;
+            IsAdmin = auth.IsAdmin;
+        }
+
+    }
+
+    private async Task Consultar()
+    {
+        Console.WriteLine($"Empresa Ini: {filter.IdmaeEmpresa}");
+        if (filter.IdmaeEmpresa == IdmaeEmpresa || IsAdmin)
+        {
+            var response = await _service.GetByDate(filter);
+            comprobante = response.Data;
+            bExisteData = response.Data != null;
+        }
+        Console.WriteLine($"Empresa Fin: {filter.IdmaeEmpresa}");
+    }
+
+    public async Task SendMail(SUNAT_FE_Comprobante Comprobante)
+    {
+        var HTML = await _serviceHtml.FindByIdAsync(16);
+        var StrHtml = HTML.Data;
+
+        Console.WriteLine($"Empresa Send Mail: {filter.IdmaeEmpresa}");
+        var _IdEmpresa = filter.IdmaeEmpresa;
+
+        var empresa = await _serviceEmpresa.FindByIdAsync(_IdEmpresa);
+        var empresaData = empresa.Data;
+        var tipo = Comprobante.nomArchivo.Substring(12, 2);
+        var TipoDoc = UtilidadesComprobante.DocumentoTipo(tipo);
+
+        var _comprobante = LeerComprobante(tipo, Comprobante.xmlFirmado);
+        var _html = StrHtml.HTML;
+
+        var reemplazar = new Dictionary<string, string>
+        {
+            { "TipoDoc", TipoDoc },
+            { "NomEmpresa", _comprobante.Emisor.NombreCompleto},
+            { "NroSerie", _comprobante.NumSerieCorrelativo},
+            { "Nomeda", _comprobante.TipoMoneda},
+            { "Monto", _comprobante.ImporteTotal.ToString() },
+            { "FechaEmision",  _comprobante.FechaEmision },
+            { "FechaVencimiento",  _comprobante.FechaVencimiento },
+            { "Direccion", _comprobante.Emisor.DireccionCompleta },
+            { "Correo",  _comprobante.Emisor.Correo }
+        };
+
+        foreach (var valor in reemplazar)
+        {
+            _html = _html.Replace("{"+valor.Key+"}", valor.Value);
+        }
+
+        var emailConfig = await _serviceEmailConfig.FindByIdAsync(1);
+        var emailContent = new EmailContentDto
+            {
+                EmailTo = "espinozalunaalexdaniel@gmail.com,ovasua@igcloud.biz",//ovasua@igcloud.biz
+                EmailCC = "adel_escorpio@hotmail.com",
+                EmailBcc = "",
+                Subject = $"Has recibido una {tipo}  {Comprobante.nomArchivo} de {empresaData.NommaeEmpresa}",
+                Content = _html,
+                IsHtml = true
+            };
+
+        var emailAttachments = new List<EmailAttachmentDto>();
+
+        if (Comprobante.XmlCdr != null)
+        {
+            emailAttachments.Add(
+            new()
+                {
+                    ContentType = "Base64",
+                    FileName = $"R_{Comprobante.nomArchivo}.xml",
+                    Content = Comprobante.XmlCdr
+                });
+        }
+
+        if (Comprobante.xmlFirmado != null)
+        {
+            emailAttachments.Add(
+            new()
+                {
+                    ContentType = "Base64",
+                    FileName = $"{Comprobante.nomArchivo}.xml",
+                    Content = Comprobante.xmlFirmado
+
+                });
+        }
+
+        var emailEmbeddedContents = new List<EmailEmbeddedContentDto>
+        {
+            new()
+            {
+               Cod="logo",
+               Content = Convert.ToBase64String(empresaData.imLogo),
+               ContentType="Base64",
+               MediaType="image/jpeg"
+            }
+        };
+
+
+
+
+        var ResponseSendmail = await _serviceEmail.SendMail(emailConfig.Data, emailContent, emailAttachments, emailEmbeddedContents);
+
+        if (!string.IsNullOrEmpty(ResponseSendmail))
+        {
+            await swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Envio de Correo",
+                    Text = $"Se envio un correo a {emailContent.EmailTo} respuesta: {ResponseSendmail}",
+                    Icon = SweetAlertIcon.Info
+                });
+        }
+    }
+
+    string getIdModal(object val)
+    {
+        return $"modal_{val}";
+    }
+
+    private void OnEmpresaSelectChanged(int newValue)
+    {
+        filter.IdmaeEmpresa = newValue;
+    }
+
+
+    private async Task DescargarXml(string strBase64, string nom, bool IsCdr = false)
+    {
+        if (!string.IsNullOrEmpty(strBase64))
+        {
+            var certificadoBytes = Convert.FromBase64String(strBase64);
+            var base64 = Convert.ToBase64String(certificadoBytes);
+            var fileName = (IsCdr ? "R_" : "") + $"{nom}.xml";
+
+            await JS.InvokeVoidAsync("downloadFromBase64", base64, fileName);
+        }
+        else
+        {
+            // Manejar el caso en que el certificado no esté disponible
+        }
+    }
+
+    private void LeerXMl(SUNAT_FE_Comprobante Comprobante)
+    {
+
+        var tipo = Comprobante.nomArchivo.Substring(12, 2);
+
+        var _comprobante = LeerComprobante(tipo, Comprobante.xmlFirmado);
+
+
+        Console.WriteLine(_comprobante.Leyendas);
+        Console.WriteLine("UBLVersionID: " + _comprobante.VerUBL);
+        Console.WriteLine("IssueDate: " + _comprobante.FechaEmision);
+        Console.WriteLine("DueDate: " + _comprobante.FechaVencimiento);
+        Console.WriteLine("CustomizationID: " + _comprobante.VerEstDocumento);
+        Console.WriteLine("ID: " + _comprobante.NumSerieCorrelativo);
+        Console.WriteLine("Cliente: " + _comprobante.Cliente.NombreCompleto);
+        // }
+        // catch (InvalidOperationException ex)
+        // {
+        //     Console.WriteLine("Error: " + ex.Message);
+        // }
+    }
+
+    private FEComprobanteVenta LeerComprobante(string tipo, string XmlBase64)
+    {
+        var xml = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(XmlBase64));
+        BaseDocument document = XmlDeserializer.DeserializeXml(xml, tipo);
+        var _comprobante = new FEComprobanteVenta();
+
+        // Trabajar con el documento deserializado
+        if (document is Invoice invoice)
+            _comprobante = new FEComprobanteVenta(invoice);
+        else if (document is CreditNote creditNote)
+            _comprobante = new FEComprobanteVenta(creditNote);
+        else if (document is DebitNote debitNote)
+            _comprobante = new FEComprobanteVenta(debitNote);
+
+        if (string.IsNullOrEmpty(_comprobante.CodTipoDocumento))
+            _comprobante.CodTipoDocumento = tipo;
+
+        return _comprobante;
+    }
+
+
+}
+
+<script>
+    window.downloadFromBase64 = (base64, fileName) => {
+        const linkSource = `data:application/octet-stream;base64,${base64}`;
+        const downloadLink = document.createElement("a");
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    };
+</script>

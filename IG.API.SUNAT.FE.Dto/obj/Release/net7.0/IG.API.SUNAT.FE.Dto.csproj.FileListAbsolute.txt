@@ -1,0 +1,12 @@
+D:\Proyectos\NET\C#\IG.API\IG.API.SUNAT.FE.Dto\bin\Release\net7.0\IG.API.SUNAT.FE.Dto.deps.json
+D:\Proyectos\NET\C#\IG.API\IG.API.SUNAT.FE.Dto\bin\Release\net7.0\IG.API.SUNAT.FE.Dto.dll
+D:\Proyectos\NET\C#\IG.API\IG.API.SUNAT.FE.Dto\bin\Release\net7.0\IG.API.SUNAT.FE.Dto.pdb
+D:\Proyectos\NET\C#\IG.API\IG.API.SUNAT.FE.Dto\obj\Release\net7.0\IG.API.SUNAT.FE.Dto.GeneratedMSBuildEditorConfig.editorconfig
+D:\Proyectos\NET\C#\IG.API\IG.API.SUNAT.FE.Dto\obj\Release\net7.0\IG.API.SUNAT.FE.Dto.AssemblyInfoInputs.cache
+D:\Proyectos\NET\C#\IG.API\IG.API.SUNAT.FE.Dto\obj\Release\net7.0\IG.API.SUNAT.FE.Dto.AssemblyInfo.cs
+D:\Proyectos\NET\C#\IG.API\IG.API.SUNAT.FE.Dto\obj\Release\net7.0\IG.API.SUNAT.FE.Dto.csproj.CoreCompileInputs.cache
+D:\Proyectos\NET\C#\IG.API\IG.API.SUNAT.FE.Dto\obj\Release\net7.0\IG.API.SUNAT.FE.Dto.sourcelink.json
+D:\Proyectos\NET\C#\IG.API\IG.API.SUNAT.FE.Dto\obj\Release\net7.0\IG.API.SUNAT.FE.Dto.dll
+D:\Proyectos\NET\C#\IG.API\IG.API.SUNAT.FE.Dto\obj\Release\net7.0\refint\IG.API.SUNAT.FE.Dto.dll
+D:\Proyectos\NET\C#\IG.API\IG.API.SUNAT.FE.Dto\obj\Release\net7.0\IG.API.SUNAT.FE.Dto.pdb
+D:\Proyectos\NET\C#\IG.API\IG.API.SUNAT.FE.Dto\obj\Release\net7.0\ref\IG.API.SUNAT.FE.Dto.dll

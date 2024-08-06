@@ -1050,6 +1050,16 @@
           }
         }
       },
+      "API.API.SUNAT.Xml/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "compile": {
+          "bin/placeholder/API.API.SUNAT.Xml.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/API.API.SUNAT.Xml.dll": {}
+        }
+      },
       "IG.API.SUNAT.FE.Dto/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
@@ -2890,6 +2900,11 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "API.API.SUNAT.Xml/1.0.0": {
+      "type": "project",
+      "path": "../API.API.SUNAT.Xml/API.API.SUNAT.Xml.csproj",
+      "msbuildProject": "../API.API.SUNAT.Xml/API.API.SUNAT.Xml.csproj"
+    },
     "IG.API.SUNAT.FE.Dto/1.0.0": {
       "type": "project",
       "path": "../IG.API.SUNAT.FE.Dto/IG.API.SUNAT.FE.Dto.csproj",
@@ -2913,6 +2928,7 @@
   },
   "projectFileDependencyGroups": {
     "net7.0": [
+      "API.API.SUNAT.Xml >= 1.0.0",
       "AutoMapper >= 13.0.1",
       "IG.API.SUNAT.FE.Dto >= 1.0.0",
       "IG.API.SUNAT.FE.Entity >= 1.0.0",
@@ -2923,7 +2939,8 @@
   },
   "packageFolders": {
     "C:\\Users\\adel_\\.nuget\\packages\\": {},
-    "C:\\Program Files\\DevExpress 22.2\\Components\\Offline Packages": {}
+    "C:\\Program Files\\DevExpress 22.2\\Components\\Offline Packages": {},
+    "C:\\Program Files\\DevExpress 23.2\\Components\\Offline Packages": {}
   },
   "project": {
     "version": "1.0.0",
@@ -2935,11 +2952,13 @@
       "outputPath": "D:\\Proyectos\\NET\\C#\\IG.API\\IG.API.SUNAT.FE.Services\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files\\DevExpress 22.2\\Components\\Offline Packages"
+        "C:\\Program Files\\DevExpress 22.2\\Components\\Offline Packages",
+        "C:\\Program Files\\DevExpress 23.2\\Components\\Offline Packages"
       ],
       "configFilePaths": [
         "C:\\Users\\adel_\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 22.2.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 23.2.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2948,12 +2967,17 @@
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "C:\\Program Files\\DevExpress 22.2\\Components\\System\\Components\\Packages": {},
+        "C:\\Program Files\\DevExpress 23.2\\Components\\System\\Components\\Packages": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
+            "D:\\Proyectos\\NET\\C#\\IG.API\\API.API.SUNAT.Xml\\API.API.SUNAT.Xml.csproj": {
+              "projectPath": "D:\\Proyectos\\NET\\C#\\IG.API\\API.API.SUNAT.Xml\\API.API.SUNAT.Xml.csproj"
+            },
             "D:\\Proyectos\\NET\\C#\\IG.API\\IG.API.SUNAT.FE.Dto\\IG.API.SUNAT.FE.Dto.csproj": {
               "projectPath": "D:\\Proyectos\\NET\\C#\\IG.API\\IG.API.SUNAT.FE.Dto\\IG.API.SUNAT.FE.Dto.csproj"
             },
@@ -2970,6 +2994,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -3000,12 +3029,26 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[7.0.20, 7.0.20]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[7.0.20, 7.0.20]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[7.0.20, 7.0.20]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.301\\RuntimeIdentifierGraph.json"
       }
     }
   }

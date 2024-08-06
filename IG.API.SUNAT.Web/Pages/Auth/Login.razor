@@ -1,0 +1,126 @@
+﻿@page "/"
+@layout EmptyLayout
+
+@using IG.API.SUNAT.FE.Services
+@using System.ComponentModel.DataAnnotations
+
+@using Microsoft.Extensions.Configuration
+@using Microsoft.AspNetCore.Components.Authorization
+
+@inject ISistemaUsuarioService loginService 
+@inject IApiUtil fn
+@inject SweetAlertService swal
+@inject NavigationManager navManager
+@inject AuthenticationStateProvider authStateProvider
+
+ <EditForm Model="@loginModel" OnValidSubmit="HandleLogin">
+
+  <div class="container">
+   <div class="row  mt-5">
+        <div class="col-lg-4 offset-lg-4 border rounded rounded-3">
+        <div class="mb-3 text-center">
+            <h3>Iniciar Sesion</h3>
+        </div>
+           
+        <div>
+             <DataAnnotationsValidator />
+            <ValidationSummary />
+        </div>
+            <div class="mb-3">
+            <label for="username">Nombre de usuario:</label>
+            <InputText id="username" class="form-control" @bind-Value="loginModel.Username" />
+            </div>
+
+            <div class="mb-3">
+            <label for="password">Contraseña:</label>
+            <InputText id="password" class="form-control" @bind-Value="loginModel.Password" type="password" />
+            </div>
+            <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+            </div>
+    </div>
+   </div>
+  </div>
+ </EditForm>
+@code {
+    [Parameter] public string UrlRaute { get; set; }
+
+    private class LoginModel
+    {
+        [Required(ErrorMessage = "El nombre de usuario es obligatorio.")]
+        public string Username { get; set; }
+
+        [Required(ErrorMessage = "La contraseña es obligatoria.")]
+        public string Password { get; set; }
+    }
+
+    private LoginModel loginModel = new LoginModel();
+    private string? errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            navManager.NavigateTo("inicio", true);
+        }      
+
+    }
+
+    private async Task HandleLogin()
+    {
+        // try
+        // {
+        var response = await loginService.GetUsuario(loginModel.Username);
+        var usuario = response.Data;
+
+        if (usuario != null)
+        {
+            if  ( usuario.PassUsuario == await fn.CifrarSha512( loginModel.Password))
+            {
+                var user = new UserSession
+                    {
+                        UserName = usuario.NomSistemaUsuario,
+                        Role = usuario.EsAdministrador ? "Admin" : "Otro",
+                        Id =usuario.IdEmpresa,
+                        IsAdmin = usuario.EsAdministrador,
+                          Area = await fn.CifrarSha512(usuario.IdEmpresa.ToString()),
+                        Hash = usuario.IdEmpresa.ToString()
+                    };
+
+                    var proveedorEstado = (ProveedorAutenticacion)authStateProvider;
+                    await proveedorEstado.UpdateAuthenticationState(user);
+
+                    if (string.IsNullOrEmpty(UrlRaute))
+                        UrlRaute = "/inicio";
+                    navManager.NavigateTo(UrlRaute, true);
+             }
+             else
+                {
+                    errorMessage = "Contraseña incorrecto.";
+                }
+            } else
+            {
+                errorMessage = $"Usuario {loginModel.Username} incorrecto.";
+            }
+        // }
+        // catch (Exception ex)
+        // {
+            
+        //     errorMessage = ex.Message;
+        // }
+
+        
+        if(errorMessage is object)
+        {
+            await swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Login",
+                    Text = errorMessage,
+                    Icon = SweetAlertIcon.Info
+                });
+        }
+    }
+}

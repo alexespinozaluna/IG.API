@@ -1,0 +1,30 @@
+﻿@page "/usersession"
+@using Microsoft.AspNetCore.Components.Authorization
+@inject ProveedorAutenticacion CustomAuthStateProvider
+
+<h3>User Session</h3>
+
+@if (userSession != null)
+{
+    <ul>
+        <li>Username: @userSession.UserName</li>
+        <li>Hash: @userSession.Hash</li>
+        <li>Role: @userSession.Role</li>
+        <li>Area: @userSession.Area</li>
+        <li>Id: @userSession.Id</li>
+        <li>IsAdmin: @userSession.IsAdmin</li>
+    </ul>
+}
+else
+{
+    <p>No user session available.</p>
+}
+
+@code {
+    private UserSession userSession;
+
+    protected override void OnInitialized()
+    {
+        userSession = CustomAuthStateProvider.GetUserSession();
+    }
+}

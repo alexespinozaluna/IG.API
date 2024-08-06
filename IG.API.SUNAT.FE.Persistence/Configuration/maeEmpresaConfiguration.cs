@@ -29,13 +29,27 @@ namespace IG.API.SUNAT.FE.Persistence.Configuration
             builder.Property(p => p.nvURLTokenApiFE).HasMaxLength(500);
             builder.Property(p => p.nvURLEnvioApiFE).HasMaxLength(500);
             builder.Property(p => p.nvURLConsultaApiFE).HasMaxLength(500);
-            builder.Property(p=>p.nvURLFECDR).HasMaxLength(500);
-
-            builder.HasIndex(e => new { e.nvNumDocumentoIdentidad, e.bProduccion }).IsUnique();
+            builder.Property(p => p.nvURLFECDR).HasMaxLength(500);
+            builder.Property(p => p.imLogo).HasColumnType("image");
+            // builder.HasIndex(e => new { e.nvNumDocumentoIdentidad, e.bProduccion }).IsUnique();
 
             builder.HasOne(e => e.Token)
            .WithOne(ee => ee.Empresa)
-           .HasForeignKey<OauthAccessToken>(ee => ee.IdmaeEmpresa);
+           .HasForeignKey<OauthAccessToken>(ee => ee.IdmaeEmpresa)
+           .OnDelete(DeleteBehavior.Restrict)
+           ;
+
+            builder.HasOne(e => e.Usuario)
+        .WithOne(ee => ee.Empresa)
+        .HasForeignKey<SistemaUsuario>(ee => ee.IdEmpresa)
+        .OnDelete(DeleteBehavior.Restrict)
+        ;
+            builder.HasMany(e => e.Emails)
+        .WithOne(e => e.Empresa)
+        .HasForeignKey(ee => ee.IdEmpresa)
+        .OnDelete(DeleteBehavior.Restrict)
+        ;
+
         }
     }
 }

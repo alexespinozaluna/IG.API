@@ -1,0 +1,43 @@
+﻿@using IG.API.SUNAT.Web.Pages.Auth
+@using Microsoft.AspNetCore.Components.Authorization
+@inject NavigationManager navManager
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(App).Assembly">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" >
+                <Authorizing>
+                     <p class="alert alert-success">Autorizando...</p>
+                </Authorizing>
+                <NotAuthorized>
+                    @{
+                        var _userName = context.User.Identity?.Name ?? "";
+                        bool _isAut = context.User.Identity?.IsAuthenticated ?? false;
+                
+
+                        Console.WriteLine($"UserName: {_userName}");
+                        Console.WriteLine($"Auth: {_isAut}");
+
+                        if ( string.IsNullOrEmpty(_userName))
+                        {
+                            string UrlRaute = navManager.Uri;
+                            UrlRaute=UrlRaute.Replace(navManager.BaseUri, "");
+                            
+                            <Login UrlRaute="@UrlRaute"/>
+                        }                           
+                        else
+                        {
+                            <p class="alert alert-danger">No esta autorizado para ver esta pagina</p>
+                        }
+                    }
+                 </NotAuthorized>
+            </AuthorizeRouteView>
+            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        </Found>
+        <NotFound>
+            <PageTitle>Not found</PageTitle>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <p role="alert">Lo sentimos, no hay nada en esta dirección.</p>
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>

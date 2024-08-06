@@ -1,0 +1,100 @@
+﻿@page "/empresa/detalle/{Id:int}"
+@inject IEmpresaService _service
+@inject NavigationManager Navigation
+@inject IJSRuntime JS
+@attribute [Authorize(Roles = "Admin")]
+<PageTitle>Empresa Detalle</PageTitle>
+
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1"> <strong>Detalle de Empresa</strong></span>
+    </div>
+</nav>
+    <div class="row g-3">
+@if (empresa != null)
+{
+    <p><strong>Es Producción:</strong> @empresa.bProduccion</p>
+    <p><strong>Nombre de Empresa:</strong> @empresa.NommaeEmpresa</p>
+    <p><strong>Nro. de Documento:</strong> @empresa.nvNumDocumentoIdentidad</p>
+    <p><strong>Codigo Documento:</strong> @empresa.nvCodTipoDocumentoIdentidad</p>
+    <p><strong>Encoding:</strong> @empresa.nvEncoding</p>
+        <p><strong>Certificado Pfx: </strong> 
+            @if (empresa.ntCertificadoPfx != null && empresa.ntCertificadoPfx.Length > 100)
+                            {
+                <button class="btn btn-outline-success" @onclick="DescargarCertificado"><i class="bi bi-cloud-arrow-down"></i> Descargar Certificado</button>
+            }
+            else
+            {
+                <span>Sin Certificado</span>
+            }
+        </p>
+        <p><strong>Clave Certificado:</strong> @empresa.nvCertificadoPass</p>
+    <p><strong>Url FE SOAP:</strong> @empresa.nvURLFE</p>
+    <p><strong>Usuario FE:</strong> @empresa.nvUsuarioFE</p>
+    <p><strong>Clave FE:</strong> @empresa.nvClaveFE</p>
+    <p><strong>Proveedor FE:</strong> @empresa.nvProveedorFE</p>
+    <p><strong>Soap:</strong> @empresa.ntSoapFE</p>
+    <p><strong>Scope Api:</strong> @empresa.nvScopeApiFE</p>
+    <p><strong>ClienteId Api:</strong> @empresa.nvClientIdApiFE</p>
+    <p><strong>ClientSecret Api:</strong> @empresa.nvClientSecretApiFE</p>
+    <p><strong>URL Token Api:</strong> @empresa.nvURLTokenApiFE</p>
+    <p><strong>URL Envio Api:</strong> @empresa.nvURLEnvioApiFE</p>
+    <p><strong>URL Consulta Api:</strong> @empresa.nvURLConsultaApiFE</p>
+    <p><strong>URL FE CDR:</strong> @empresa.nvURLFECDR</p>
+}
+else
+{
+    <p><em>Cargando...</em></p>
+}
+</div>
+<div class="row g-3">
+    <div class="col-md-4">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+            <button type="button" class="btn btn-danger mt-3" @onclick="Cancel"><i class="bi bi-x-square"> Volver</i></button>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private maeEmpresa? empresa;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await _service.FindByIdAsync(Id);
+        empresa = response.Data;
+    }
+    private async Task Cancel()
+    {
+        Navigation.NavigateTo("/empresa");
+    }
+
+    private async Task DescargarCertificado()
+    {
+        if (!string.IsNullOrEmpty(empresa.ntCertificadoPfx))
+        {
+            var certificadoBytes = Convert.FromBase64String(empresa.ntCertificadoPfx);
+            var base64 = Convert.ToBase64String(certificadoBytes);
+            var fileName =$"CER_{empresa.nvNumDocumentoIdentidad}.pfx";
+
+            await JS.InvokeVoidAsync("downloadFromBase64", base64, fileName);
+        }
+        else
+        {
+            // Manejar el caso en que el certificado no esté disponible
+        }
+    }
+}
+
+<script>
+    window.downloadFromBase64 = (base64, fileName) => {
+        const linkSource = `data:application/octet-stream;base64,${base64}`;
+        const downloadLink = document.createElement("a");
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    };
+</script>
+

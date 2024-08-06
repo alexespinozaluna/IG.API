@@ -13,9 +13,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\API.API.SUNAT.Xml\API.API.SUNAT.Xml.csproj" />
     <ProjectReference Include="..\IG.API.SUNAT.FE.Dto\IG.API.SUNAT.FE.Dto.csproj" />
     <ProjectReference Include="..\IG.API.SUNAT.FE.Entity\IG.API.SUNAT.FE.Entity.csproj" />
     <ProjectReference Include="..\IG.API.SUNAT.FE.Repository\IG.API.SUNAT.FE.Repository.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Auth\" />
   </ItemGroup>
 
 </Project>

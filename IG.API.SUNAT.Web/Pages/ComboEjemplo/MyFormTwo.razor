@@ -1,0 +1,25 @@
+﻿@page "/formtwo"
+<MySelect ValueChanged="handleChange" TItem="Person" Items="items" Selector="(x => x.Firstname)" />
+
+@if (_selectedItem is object)
+{
+    <p>Selected person: Name: @_selectedItem.Firstname, Age: @_selectedItem.Age</p>
+}
+@* Select Person: @_selectedItem.Firstname *@
+@code {
+    class Person
+    {
+        public string Firstname { get; set; }
+        public int Age { get; set; }
+    }
+
+    IList<Person> items = new List<Person>
+    {
+        new Person {Firstname = "John Doe", Age = 26},
+        new Person {Firstname = "Jane Doe", Age = 23}
+    };
+
+    Person _selectedItem;
+
+    void handleChange(Person value) => _selectedItem = value;
+ } 

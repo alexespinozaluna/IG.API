@@ -1,0 +1,19 @@
+﻿@page "/formone"
+<MySelect ValueChanged="handleStringChange" TItem="string" Items="stringItems" Selector="(x => x)" />b
+<p>@_selectedStringItem</p>
+
+@* Select Person: @_selectedStringItem *@
+
+@code {
+
+IList<string> stringItems = new List<string>()
+{
+    "Random",
+    "String",
+    "Content",
+    "ForDemo"
+};
+
+string _selectedStringItem;
+void handleStringChange(string value) => _selectedStringItem = value;
+}

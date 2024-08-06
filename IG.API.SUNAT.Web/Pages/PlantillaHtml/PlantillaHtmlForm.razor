@@ -1,0 +1,46 @@
+﻿@attribute [Authorize(Roles = "Admin")]
+@using IG.API.SUNAT.Web.Pages.Combos
+<EditForm Model="DataActual" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group">
+        <label for="Id">IdtdHTML</label>
+        <InputNumber id="Id" class="form-control" @bind-Value="DataActual.IdtdHTML" />
+    </div>
+
+    <div class="form-group">
+        <label for="TipoHTML">Tipo HTML</label>
+        <InputText id="TipoHTML" class="form-control" @bind-Value="DataActual.TipoHTML" />
+    </div>
+    <div class="form-group">
+        <label for="HTML">HTML</label>
+        <InputTextArea id="HTML" class="form-control" @bind-Value="DataActual.HTML" />
+    </div>
+   
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button type="submit" class="btn btn-primary mt-3"><i class="bi bi-floppy2-fill"></i> @((isEditing ? "Guardar" : "Agregar"))</button>
+        <button type="button" class="btn btn-danger mt-3" @onclick="Cancel"><i class="bi bi-x-square"> Cancelar</i></button>
+    </div>
+
+</EditForm>
+
+@code {
+    [Parameter] public tdHTML DataActual { get; set; } = new tdHTML();
+    [Parameter] public EventCallback<tdHTML> OnValidSubmit { get; set; }
+    [Parameter] public EventCallback OnCancel { get; set; }
+    [Parameter] public bool isEditing { get; set; } = false;
+  
+    private async Task HandleValidSubmit()
+    {
+        await OnValidSubmit.InvokeAsync(DataActual);
+    }
+
+    private async Task Cancel()
+    {
+        await OnCancel.InvokeAsync();
+    }
+ 
+   
+    
+
+}

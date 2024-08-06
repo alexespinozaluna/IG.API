@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IG.API.SUNAT.RUC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2145dcd113e522ab3b25ac480b666143137e8a48")]
 [assembly: System.Reflection.AssemblyProductAttribute("IG.API.SUNAT.RUC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IG.API.SUNAT.RUC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

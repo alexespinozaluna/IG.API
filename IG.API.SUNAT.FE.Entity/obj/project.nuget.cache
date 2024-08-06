@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "rIq8rg1cWaN1smafl+TFpdGwqVeOGYUgp0jJKSIvqlnL1rUfLmuwiaJzi8pgvQsI21lCMACEi2ZwuHLJho+QLQ==",
+  "dgSpecHash": "piBMzqdjGWw=",
   "success": true,
   "projectFilePath": "D:\\Proyectos\\NET\\C#\\IG.API\\IG.API.SUNAT.FE.Entity\\IG.API.SUNAT.FE.Entity.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\adel_\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.20\\microsoft.windowsdesktop.app.ref.7.0.20.nupkg.sha512",
+    "C:\\Users\\adel_\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.20\\microsoft.netcore.app.ref.7.0.20.nupkg.sha512",
+    "C:\\Users\\adel_\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.20\\microsoft.aspnetcore.app.ref.7.0.20.nupkg.sha512"
+  ],
   "logs": []
 }

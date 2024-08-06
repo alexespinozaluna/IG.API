@@ -1,0 +1,39 @@
+﻿@page "/inicio"
+
+@using Microsoft.AspNetCore.Authorization;
+@using Microsoft.AspNetCore.Components.Authorization;
+@using System.Security.Claims
+
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject Blazored.SessionStorage.ISessionStorageService SessionStorage
+
+@attribute [Authorize]
+
+<PageTitle>Inicio</PageTitle>
+
+
+
+Bievenido al App de Comproantes electronicos.
+<AuthorizeView>
+    <Authorized>
+        <h1>Bienvenido @context.User.Identity?.Name</h1>
+
+    </Authorized>
+    
+
+</AuthorizeView>
+
+@* <SurveyPrompt Title="¿Cómo funciona Blazor para usted?" /> *@
+@code{
+   
+
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+    //     var user = authState.User;
+
+     
+        
+       
+    // }
+}

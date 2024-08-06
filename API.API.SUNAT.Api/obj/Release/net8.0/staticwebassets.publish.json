@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "J7B0buuweI1TTfDCId27F9tKasuPWCNkoEoM254yNsE=",
+  "Source": "API.API.SUNAT.Api",
+  "BasePath": "_content/API.API.SUNAT.Api",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

@@ -1,0 +1,42 @@
+2024-07-29 12:08:55.349 -04:00 [WRN] Unhandled exception rendering component: Value cannot be null. (Parameter 'inArray')
+System.ArgumentNullException: Value cannot be null. (Parameter 'inArray')
+   at System.ArgumentNullException.Throw(String paramName)
+   at System.Convert.ToBase64String(Byte[] inArray)
+   at IG.API.SUNAT.Web.Pages.Comprobante.ComprobanteLista.SendMail(SUNAT_FE_Comprobante comprobante) in D:\Proyectos\NET\C#\IG.API\IG.API.SUNAT.Web\Pages\Comprobante\ComprobanteLista.razor:line 253
+   at Microsoft.AspNetCore.Components.ComponentBase.CallStateHasChangedOnAsyncCompletion(Task task)
+   at Microsoft.AspNetCore.Components.RenderTree.Renderer.GetErrorHandledTask(Task taskToHandle, ComponentState owningComponentState)
+2024-07-29 12:08:55.390 -04:00 [ERR] Unhandled exception in circuit 'Xu6JMcueyc38OzQpaKrLGCOiOnzI3LB4uIk-ttacGQ0'.
+System.ArgumentNullException: Value cannot be null. (Parameter 'inArray')
+   at System.ArgumentNullException.Throw(String paramName)
+   at System.Convert.ToBase64String(Byte[] inArray)
+   at IG.API.SUNAT.Web.Pages.Comprobante.ComprobanteLista.SendMail(SUNAT_FE_Comprobante comprobante) in D:\Proyectos\NET\C#\IG.API\IG.API.SUNAT.Web\Pages\Comprobante\ComprobanteLista.razor:line 253
+   at Microsoft.AspNetCore.Components.ComponentBase.CallStateHasChangedOnAsyncCompletion(Task task)
+   at Microsoft.AspNetCore.Components.RenderTree.Renderer.GetErrorHandledTask(Task taskToHandle, ComponentState owningComponentState)
+2024-07-29 22:50:11.067 -04:00 [WRN] Unhandled exception rendering component: There is an error in XML document (1, 40).
+System.InvalidOperationException: There is an error in XML document (1, 40).
+ ---> System.InvalidOperationException: <DespatchAdvice xmlns='urn:oasis:names:specification:ubl:schema:xsd:DespatchAdvice-2'> was not expected.
+   at Microsoft.Xml.Serialization.GeneratedAssembly.XmlSerializationReaderInvoice.Read37_Invoice()
+   at InvokeStub_XmlSerializationReaderInvoice.Read37_Invoice(Object, Object, IntPtr*)
+   at System.Reflection.MethodInvoker.Invoke(Object obj, IntPtr* args, BindingFlags invokeAttr)
+   --- End of inner exception stack trace ---
+   at System.Xml.Serialization.XmlSerializer.Deserialize(XmlReader xmlReader, String encodingStyle, XmlDeserializationEvents events)
+   at System.Xml.Serialization.XmlSerializer.Deserialize(TextReader textReader)
+   at IG.API.SUNAT.Web.Pages.Comprobante.ComprobanteLista.LeerXMl(SUNAT_FE_Comprobante Comprobante) in D:\Proyectos\NET\C#\IG.API\IG.API.SUNAT.Web\Pages\Comprobante\ComprobanteLista.razor:line 314
+   at IG.API.SUNAT.Web.Pages.Comprobante.ComprobanteLista.<>c__DisplayClass0_0.<BuildRenderTree>b__6() in D:\Proyectos\NET\C#\IG.API\IG.API.SUNAT.Web\Pages\Comprobante\ComprobanteLista.razor:line 164
+   at Microsoft.AspNetCore.Components.EventCallbackWorkItem.InvokeAsync[T](MulticastDelegate delegate, T arg)
+   at Microsoft.AspNetCore.Components.ComponentBase.Microsoft.AspNetCore.Components.IHandleEvent.HandleEventAsync(EventCallbackWorkItem callback, Object arg)
+   at Microsoft.AspNetCore.Components.RenderTree.Renderer.DispatchEventAsync(UInt64 eventHandlerId, EventFieldInfo fieldInfo, EventArgs eventArgs)
+2024-07-29 22:50:11.123 -04:00 [ERR] Unhandled exception in circuit 'sPr32xgA__InoBH4_1r5uh1wYcf0Js5Nt2CvqwoO7Nk'.
+System.InvalidOperationException: There is an error in XML document (1, 40).
+ ---> System.InvalidOperationException: <DespatchAdvice xmlns='urn:oasis:names:specification:ubl:schema:xsd:DespatchAdvice-2'> was not expected.
+   at Microsoft.Xml.Serialization.GeneratedAssembly.XmlSerializationReaderInvoice.Read37_Invoice()
+   at InvokeStub_XmlSerializationReaderInvoice.Read37_Invoice(Object, Object, IntPtr*)
+   at System.Reflection.MethodInvoker.Invoke(Object obj, IntPtr* args, BindingFlags invokeAttr)
+   --- End of inner exception stack trace ---
+   at System.Xml.Serialization.XmlSerializer.Deserialize(XmlReader xmlReader, String encodingStyle, XmlDeserializationEvents events)
+   at System.Xml.Serialization.XmlSerializer.Deserialize(TextReader textReader)
+   at IG.API.SUNAT.Web.Pages.Comprobante.ComprobanteLista.LeerXMl(SUNAT_FE_Comprobante Comprobante) in D:\Proyectos\NET\C#\IG.API\IG.API.SUNAT.Web\Pages\Comprobante\ComprobanteLista.razor:line 314
+   at IG.API.SUNAT.Web.Pages.Comprobante.ComprobanteLista.<>c__DisplayClass0_0.<BuildRenderTree>b__6() in D:\Proyectos\NET\C#\IG.API\IG.API.SUNAT.Web\Pages\Comprobante\ComprobanteLista.razor:line 164
+   at Microsoft.AspNetCore.Components.EventCallbackWorkItem.InvokeAsync[T](MulticastDelegate delegate, T arg)
+   at Microsoft.AspNetCore.Components.ComponentBase.Microsoft.AspNetCore.Components.IHandleEvent.HandleEventAsync(EventCallbackWorkItem callback, Object arg)
+   at Microsoft.AspNetCore.Components.RenderTree.Renderer.DispatchEventAsync(UInt64 eventHandlerId, EventFieldInfo fieldInfo, EventArgs eventArgs)

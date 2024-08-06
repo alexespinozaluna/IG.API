@@ -17,7 +17,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.11")
+                .HasAnnotation("ProductVersion", "7.0.18")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -83,7 +83,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             CodApiEndPoint = "SUNAT_SIRE_RCE_PROPUESTA",
                             ContentType = "application/json; charset=UTF-8",
                             Descripcion = "5.34 Servicio Web Api descargar propuesta",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 443, DateTimeKind.Local).AddTicks(2651),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 551, DateTimeKind.Local).AddTicks(9013),
                             Method = "GET"
                         },
                         new
@@ -94,7 +94,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             CodApiEndPoint = "SUNAT_SIRE_RVIE_PROPUESTA",
                             ContentType = "application/json; charset=UTF-8",
                             Descripcion = "5.18 Servicio Web Api descargar propuesta   codTipoArchivo:   0=txt  1=csv",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 443, DateTimeKind.Local).AddTicks(2651),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 551, DateTimeKind.Local).AddTicks(9013),
                             Method = "GET"
                         },
                         new
@@ -105,7 +105,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             CodApiEndPoint = "SUNAT_SIRE_RVIE_RCE_CONSULTAR_TICKET",
                             ContentType = "application/json; charset=UTF-8",
                             Descripcion = "RVIE:5.16 Servicio Web Api consultar estado de envío de ticket RCE:5.34 Servicio Web Api descargar propuesta",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 443, DateTimeKind.Local).AddTicks(2651),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 551, DateTimeKind.Local).AddTicks(9013),
                             Method = "GET"
                         },
                         new
@@ -116,7 +116,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             CodApiEndPoint = "SUNAT_SIRE_RVIE_RCE_DESCARGAR_ARCHIVO",
                             ContentType = "application/json; charset=UTF-8",
                             Descripcion = "RVIE:5.17 Servicio Web Api descargar archivo RCE:5.32 Servicio Web Api descargar archivo",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 443, DateTimeKind.Local).AddTicks(2651),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 551, DateTimeKind.Local).AddTicks(9013),
                             Method = "GET"
                         },
                         new
@@ -127,7 +127,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             CodApiEndPoint = "SUNAT_SIRE_SEGURIDAD",
                             ContentType = "application/x-www-form-urlencoded; charset=UTF-8",
                             Descripcion = "3. Generación de token para el uso de servicios REST",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 443, DateTimeKind.Local).AddTicks(2651),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 551, DateTimeKind.Local).AddTicks(9013),
                             Method = "POST"
                         },
                         new
@@ -138,7 +138,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             CodApiEndPoint = "SUNAT_FE_GRE_ENVIO",
                             ContentType = "application/json; charset=UTF-8",
                             Descripcion = "Envio de Guia Electronica de Remitente",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 443, DateTimeKind.Local).AddTicks(2651),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 551, DateTimeKind.Local).AddTicks(9013),
                             Method = "POST"
                         },
                         new
@@ -149,7 +149,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             CodApiEndPoint = "SUNAT_FE_GRE_CONSULTA_TICKET",
                             ContentType = "application/json; charset=UTF-8",
                             Descripcion = "Consulta de Ticket GRE",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 443, DateTimeKind.Local).AddTicks(2651),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 551, DateTimeKind.Local).AddTicks(9013),
                             Method = "GET"
                         });
                 });
@@ -204,6 +204,58 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                     b.HasIndex("EmpresaId");
 
                     b.ToTable("ApiResponse");
+                });
+
+            modelBuilder.Entity("IG.API.SUNAT.FE.Entity.EmailConfig", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<bool>("EnableSsl")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("FechaCreacion");
+
+                    b.Property<DateTime?>("FechaModificacion")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("FechaModificacion");
+
+                    b.Property<string>("Host")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("IdEmpresa")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("Port")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdEmpresa");
+
+                    b.ToTable("EmailConfig");
                 });
 
             modelBuilder.Entity("IG.API.SUNAT.FE.Entity.OauthAccessToken", b =>
@@ -308,7 +360,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 1,
                             Codigo = "nodoDescription",
                             Efact = "/ar:ApplicationResponse/cac:DocumentResponse/cac:Response/cbc:Description",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "/ar:ApplicationResponse/cac:DocumentResponse/cac:Response/cbc:Description",
                             NubeFact = "NULL",
                             SUNAT = "/ar:ApplicationResponse/cac:DocumentResponse/cac:Response/cbc:Description"
@@ -318,7 +370,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 2,
                             Codigo = "nodoResponseCode",
                             Efact = "/ar:ApplicationResponse/cac:DocumentResponse/cac:Response/cbc:ResponseCode",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "/ar:ApplicationResponse/cac:DocumentResponse/cac:Response/cbc:ResponseCode",
                             NubeFact = "NULL",
                             SUNAT = "/ar:ApplicationResponse/cac:DocumentResponse/cac:Response/cbc:ResponseCode"
@@ -328,7 +380,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 3,
                             Codigo = "nodoId ",
                             Efact = "/ar:ApplicationResponse/cbc:ID",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "/ar:ApplicationResponse/cbc:ID",
                             NubeFact = "NULL",
                             SUNAT = "/ar:ApplicationResponse/cbc:ID"
@@ -338,7 +390,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 4,
                             Codigo = "nodoNote",
                             Efact = "/ar:ApplicationResponse/cbc:Note",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "/ar:ApplicationResponse/cbc:Note",
                             NubeFact = "NULL",
                             SUNAT = "/ar:ApplicationResponse/cbc:Note"
@@ -348,7 +400,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 5,
                             Codigo = "nodoResponseDate ",
                             Efact = "/ar:ApplicationResponse/cbc:ResponseDate",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "/ar:ApplicationResponse/cbc:ResponseDate",
                             NubeFact = "NULL",
                             SUNAT = "/ar:ApplicationResponse/cbc:ResponseDate"
@@ -358,7 +410,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 6,
                             Codigo = "EnvResBase64",
                             Efact = "/soap-env:Envelope/soap-env:Body/br:sendBillResponse/applicationResponse",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "/soap-env:Envelope/soap-env:Body/br:sendBillResponse/applicationResponse",
                             NubeFact = "NULL",
                             SUNAT = "/soap-env:Envelope/soap-env:Body/br:sendBillResponse/applicationResponse"
@@ -368,7 +420,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 7,
                             Codigo = "EnvResSummaryTicket",
                             Efact = "/soap-env:Envelope/soap-env:Body/br:sendSummaryResponse/ticket",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "/soap-env:Envelope/soap-env:Body/br:sendSummaryResponse/ticket",
                             NubeFact = "NULL",
                             SUNAT = "/soap-env:Envelope/soap-env:Body/br:sendSummaryResponse/ticket"
@@ -378,7 +430,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 8,
                             Codigo = "envResCode",
                             Efact = "/soap-env:Envelope/soap-env:Body/soap-env:Fault/faultstring",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "/soap-env:Envelope/soap-env:Body/soap-env:Fault/faultcode",
                             NubeFact = "NULL",
                             SUNAT = "/soap-env:Envelope/soap-env:Body/soap-env:Fault/faultcode"
@@ -388,7 +440,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 9,
                             Codigo = "EnvResString",
                             Efact = "/soap-env:Envelope/soap-env:Body/soap-env:Fault/faultstring",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "/soap-env:Envelope/soap-env:Body/soap-env:Fault/faultstring",
                             NubeFact = "/soap-env:Envelope/soap-env:Body/soap-env:Fault/detail",
                             SUNAT = "/soap-env:Envelope/soap-env:Body/soap-env:Fault/faultstring"
@@ -398,7 +450,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 10,
                             Codigo = "nodoResponseTime ",
                             Efact = "ar:ApplicationResponse/cbc:ResponseTime",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "ar:ApplicationResponse/cbc:ResponseTime",
                             NubeFact = "NULL",
                             SUNAT = "ar:ApplicationResponse/cbc:ResponseTime"
@@ -408,7 +460,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 11,
                             Codigo = "wsse",
                             Efact = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xs",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xs",
                             NubeFact = "NULL",
                             SUNAT = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xs"
@@ -418,7 +470,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 12,
                             Codigo = "wssecurity",
                             Efact = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd",
                             NubeFact = "NULL",
                             SUNAT = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
@@ -428,7 +480,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 13,
                             Codigo = "soap-env",
                             Efact = "http://schemas.xmlsoap.org/soap/envelope/",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "http://schemas.xmlsoap.org/soap/envelope/",
                             NubeFact = "NULL",
                             SUNAT = "http://schemas.xmlsoap.org/soap/envelope/"
@@ -438,7 +490,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 14,
                             Codigo = "br",
                             Efact = "http://service.sunat.gob.pe",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "http://service.sunat.gob.pe",
                             NubeFact = "NULL",
                             SUNAT = "http://service.sunat.gob.pe"
@@ -448,7 +500,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 15,
                             Codigo = "ds ",
                             Efact = "http://www.w3.org/2000/09/xmldsig#",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "http://www.w3.org/2000/09/xmldsig#",
                             NubeFact = "NULL",
                             SUNAT = "http://www.w3.org/2000/09/xmldsig#"
@@ -458,7 +510,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 16,
                             Codigo = "xsi ",
                             Efact = "http://www.w3.org/2001/XMLSchema-instance",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "http://www.w3.org/2001/XMLSchema-instance",
                             NubeFact = "NULL",
                             SUNAT = "http://www.w3.org/2001/XMLSchema-instance"
@@ -468,7 +520,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 17,
                             Codigo = "ar ",
                             Efact = "urn:oasis:names:specification:ubl:schema:xsd:ApplicationResponse-2",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "urn:oasis:names:specification:ubl:schema:xsd:ApplicationResponse-2",
                             NubeFact = "NULL",
                             SUNAT = "urn:oasis:names:specification:ubl:schema:xsd:ApplicationResponse-2"
@@ -478,7 +530,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 18,
                             Codigo = "cac ",
                             Efact = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
                             NubeFact = "NULL",
                             SUNAT = "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
@@ -488,7 +540,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 19,
                             Codigo = "cbc ",
                             Efact = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
                             NubeFact = "NULL",
                             SUNAT = "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
@@ -498,7 +550,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 20,
                             Codigo = "ext ",
                             Efact = "urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2",
                             NubeFact = "NULL",
                             SUNAT = "urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2"
@@ -508,7 +560,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 21,
                             Codigo = "xmlnsCreditNote ",
                             Efact = "urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2",
                             NubeFact = "NULL",
                             SUNAT = "urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2"
@@ -518,7 +570,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 22,
                             Codigo = "xmlnsDebitNote ",
                             Efact = "urn:oasis:names:specification:ubl:schema:xsd:DebitNote-2",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "urn:oasis:names:specification:ubl:schema:xsd:DebitNote-2",
                             NubeFact = "NULL",
                             SUNAT = "urn:oasis:names:specification:ubl:schema:xsd:DebitNote-2"
@@ -528,7 +580,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 23,
                             Codigo = "xmlnsDespatchAdvice ",
                             Efact = "urn:oasis:names:specification:ubl:schema:xsd:DespatchAdvice-2",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "urn:oasis:names:specification:ubl:schema:xsd:DespatchAdvice-2",
                             NubeFact = "NULL",
                             SUNAT = "urn:oasis:names:specification:ubl:schema:xsd:DespatchAdvice-2"
@@ -538,7 +590,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 24,
                             Codigo = "xmlnsInvoice",
                             Efact = "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2",
                             NubeFact = "NULL",
                             SUNAT = "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
@@ -548,7 +600,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 25,
                             Codigo = "qdt ",
                             Efact = "urn:oasis:names:specification:ubl:schema:xsd:QualifiedDatatypes-2",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "urn:oasis:names:specification:ubl:schema:xsd:QualifiedDatatypes-2",
                             NubeFact = "NULL",
                             SUNAT = "urn:oasis:names:specification:ubl:schema:xsd:QualifiedDatatypes-2"
@@ -558,7 +610,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 26,
                             Codigo = "xmlnsPerception ",
                             Efact = "urn:sunat:names:specification:ubl:peru:schema:xsd:Perception-1",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "urn:sunat:names:specification:ubl:peru:schema:xsd:Perception-1",
                             NubeFact = "NULL",
                             SUNAT = "urn:sunat:names:specification:ubl:peru:schema:xsd:Perception-1"
@@ -568,7 +620,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 27,
                             Codigo = "xmlnsRetention ",
                             Efact = "urn:sunat:names:specification:ubl:peru:schema:xsd:Retention-1",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "urn:sunat:names:specification:ubl:peru:schema:xsd:Retention-1",
                             NubeFact = "NULL",
                             SUNAT = "urn:sunat:names:specification:ubl:peru:schema:xsd:Retention-1"
@@ -578,7 +630,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 28,
                             Codigo = "xmlnsSummaryDocuments ",
                             Efact = "urn:sunat:names:specification:ubl:peru:schema:xsd:SummaryDocuments-1",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "urn:sunat:names:specification:ubl:peru:schema:xsd:SummaryDocuments-1",
                             NubeFact = "NULL",
                             SUNAT = "urn:sunat:names:specification:ubl:peru:schema:xsd:SummaryDocuments-1"
@@ -588,7 +640,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 29,
                             Codigo = "sac ",
                             Efact = "urn:sunat:names:specification:ubl:peru:schema:xsd:SunatAggregateComponents-1",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "urn:sunat:names:specification:ubl:peru:schema:xsd:SunatAggregateComponents-1",
                             NubeFact = "NULL",
                             SUNAT = "urn:sunat:names:specification:ubl:peru:schema:xsd:SunatAggregateComponents-1"
@@ -598,7 +650,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 30,
                             Codigo = "xmlnsVoidedDocuments ",
                             Efact = "urn:sunat:names:specification:ubl:peru:schema:xsd:VoidedDocuments-1",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "urn:sunat:names:specification:ubl:peru:schema:xsd:VoidedDocuments-1",
                             NubeFact = "NULL",
                             SUNAT = "urn:sunat:names:specification:ubl:peru:schema:xsd:VoidedDocuments-1"
@@ -608,7 +660,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 31,
                             Codigo = "udt ",
                             Efact = "urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2",
                             NubeFact = "NULL",
                             SUNAT = "urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2"
@@ -618,7 +670,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 32,
                             Codigo = "ccts ",
                             Efact = "urn:un:unece:uncefact:documentation:2",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "urn:un:unece:uncefact:documentation:2",
                             NubeFact = "NULL",
                             SUNAT = "urn:un:unece:uncefact:documentation:2"
@@ -628,7 +680,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 33,
                             Codigo = "getStatusBase64",
                             Efact = "/soap-env:Envelope/soap-env:Body/br:getStatusResponse/status/content",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "/soap-env:Envelope/soap-env:Body/br:getStatusResponse/status/content",
                             NubeFact = "NULL",
                             SUNAT = "/soap-env:Envelope/soap-env:Body/br:getStatusResponse/status/content"
@@ -638,7 +690,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 34,
                             Codigo = "getStatusCode",
                             Efact = "/soap-env:Envelope/soap-env:Body/br:getStatusResponse/status/statusCode/statusCode",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "/soap-env:Envelope/soap-env:Body/br:getStatusResponse/status/statusCode",
                             NubeFact = "NULL",
                             SUNAT = "/soap-env:Envelope/soap-env:Body/br:getStatusResponse/status/statusCode"
@@ -648,7 +700,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 35,
                             Codigo = "nodoReferenceID",
                             Efact = "/ar:ApplicationResponse/cac:DocumentResponse/cac:Response/cbc:ReferenceID",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "NULL",
                             NubeFact = "NULL",
                             SUNAT = "/ar:ApplicationResponse/cac:DocumentResponse/cac:Response/cbc:ReferenceID"
@@ -658,7 +710,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 36,
                             Codigo = "getStatusCdrBase64",
                             Efact = "/soap-env:Envelope/soap-env:Body/br:getStatusCdrResponse/document",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "/soap-env:Envelope/soap-env:Body/br:getStatusCdrResponse/document",
                             NubeFact = "NULL",
                             SUNAT = "/soap-env:Envelope/soap-env:Body/br:getStatusCdrResponse/statusCdr/content"
@@ -668,7 +720,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 37,
                             Codigo = "EnvResDetail",
                             Efact = "/soap-env:Envelope/soap-env:Body/soap-env:Fault/detail/detail",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "/soap-env:Envelope/soap-env:Body/soap-env:Fault/detail/detail",
                             NubeFact = "NULL",
                             SUNAT = "/soap-env:Envelope/soap-env:Body/soap-env:Fault/detail/detail"
@@ -678,7 +730,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 38,
                             Codigo = "nodoDocDscrURL",
                             Efact = "/ar:ApplicationResponse/cac:DocumentResponse/cac:DocumentReference/cbc:DocumentDescription",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "NULL",
                             NubeFact = "NULL",
                             SUNAT = "/ar:ApplicationResponse/cac:DocumentResponse/cac:DocumentReference/cbc:DocumentDescription"
@@ -688,7 +740,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 39,
                             Codigo = "getstatusCdrCode",
                             Efact = "/soap-env:Envelope/soap-env:Body/br:getStatusCdrResponse/statusCdr/statusCode",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "NULL",
                             NubeFact = "NULL",
                             SUNAT = "/soap-env:Envelope/soap-env:Body/br:getStatusCdrResponse/statusCdr/statusCode"
@@ -698,7 +750,7 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                             Id = 40,
                             Codigo = "getstatusCdrMessage",
                             Efact = "/soap-env:Envelope/soap-env:Body/br:getStatusCdrResponse/statusCdr/statusMessage",
-                            FechaCreacion = new DateTime(2024, 3, 26, 14, 17, 1, 492, DateTimeKind.Local).AddTicks(1),
+                            FechaCreacion = new DateTime(2024, 7, 24, 11, 51, 52, 596, DateTimeKind.Local).AddTicks(9423),
                             Nombre = "NULL",
                             NubeFact = "NULL",
                             SUNAT = "/soap-env:Envelope/soap-env:Body/br:getStatusCdrResponse/statusCdr/statusMessage"
@@ -774,6 +826,63 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                     b.ToTable("SUNAT_FE_Comprobante");
                 });
 
+            modelBuilder.Entity("IG.API.SUNAT.FE.Entity.SistemaUsuario", b =>
+                {
+                    b.Property<int>("IdSistemaUsuario")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdSistemaUsuario"));
+
+                    b.Property<bool>("CambiarPass")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("CodSistemaUsuario")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("Desactivado")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("EsAdministrador")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("FechaCreacion");
+
+                    b.Property<DateTime?>("FechaModificacion")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("FechaModificacion");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdEmpresa")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NomSistemaUsuario")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("PassUsuario")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.HasKey("IdSistemaUsuario");
+
+                    b.HasIndex("CodSistemaUsuario")
+                        .IsUnique();
+
+                    b.HasIndex("IdEmpresa")
+                        .IsUnique();
+
+                    b.ToTable("SistemaUsuario");
+                });
+
             modelBuilder.Entity("IG.API.SUNAT.FE.Entity.maeEmpresa", b =>
                 {
                     b.Property<int>("IdmaeEmpresa")
@@ -798,11 +907,13 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<bool?>("bProduccion")
+                    b.Property<bool>("bProduccion")
                         .HasColumnType("bit");
 
+                    b.Property<byte[]>("imLogo")
+                        .HasColumnType("image");
+
                     b.Property<string>("ntCertificadoPfx")
-                        .IsRequired()
                         .HasMaxLength(2147483647)
                         .HasColumnType("nvarchar(max)");
 
@@ -812,7 +923,6 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("nvCertificadoPass")
-                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
@@ -835,10 +945,12 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                         .HasColumnType("nvarchar(1)");
 
                     b.Property<string>("nvEncoding")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("nvNumDocumentoIdentidad")
+                        .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
@@ -879,11 +991,35 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
 
                     b.HasKey("IdmaeEmpresa");
 
-                    b.HasIndex("nvNumDocumentoIdentidad", "bProduccion")
-                        .IsUnique()
-                        .HasFilter("[nvNumDocumentoIdentidad] IS NOT NULL AND [bProduccion] IS NOT NULL");
-
                     b.ToTable("maeEmpresa");
+                });
+
+            modelBuilder.Entity("IG.API.SUNAT.FE.Entity.tdHTML", b =>
+                {
+                    b.Property<int>("IdtdHTML")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("FechaCreacion");
+
+                    b.Property<DateTime?>("FechaModificacion")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("FechaModificacion");
+
+                    b.Property<string>("HTML")
+                        .IsRequired()
+                        .HasMaxLength(2147483647)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TipoHTML")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("IdtdHTML");
+
+                    b.ToTable("tdHTML");
                 });
 
             modelBuilder.Entity("IG.API.SUNAT.FE.Entity.ApiResponse", b =>
@@ -905,12 +1041,34 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
                     b.Navigation("Empresa");
                 });
 
+            modelBuilder.Entity("IG.API.SUNAT.FE.Entity.EmailConfig", b =>
+                {
+                    b.HasOne("IG.API.SUNAT.FE.Entity.maeEmpresa", "Empresa")
+                        .WithMany("Emails")
+                        .HasForeignKey("IdEmpresa")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Empresa");
+                });
+
             modelBuilder.Entity("IG.API.SUNAT.FE.Entity.OauthAccessToken", b =>
                 {
                     b.HasOne("IG.API.SUNAT.FE.Entity.maeEmpresa", "Empresa")
                         .WithOne("Token")
                         .HasForeignKey("IG.API.SUNAT.FE.Entity.OauthAccessToken", "IdmaeEmpresa")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Empresa");
+                });
+
+            modelBuilder.Entity("IG.API.SUNAT.FE.Entity.SistemaUsuario", b =>
+                {
+                    b.HasOne("IG.API.SUNAT.FE.Entity.maeEmpresa", "Empresa")
+                        .WithOne("Usuario")
+                        .HasForeignKey("IG.API.SUNAT.FE.Entity.SistemaUsuario", "IdEmpresa")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Empresa");
@@ -918,8 +1076,11 @@ namespace IG.API.SUNAT.FE.Persistence.Migrations
 
             modelBuilder.Entity("IG.API.SUNAT.FE.Entity.maeEmpresa", b =>
                 {
-                    b.Navigation("Token")
-                        .IsRequired();
+                    b.Navigation("Emails");
+
+                    b.Navigation("Token");
+
+                    b.Navigation("Usuario");
                 });
 #pragma warning restore 612, 618
         }

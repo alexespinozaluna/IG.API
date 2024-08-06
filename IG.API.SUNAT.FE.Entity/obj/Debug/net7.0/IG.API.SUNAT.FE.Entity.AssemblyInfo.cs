@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IG.API.SUNAT.FE.Entity")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2145dcd113e522ab3b25ac480b666143137e8a48")]
 [assembly: System.Reflection.AssemblyProductAttribute("IG.API.SUNAT.FE.Entity")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IG.API.SUNAT.FE.Entity")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

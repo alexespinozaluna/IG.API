@@ -1,0 +1,102 @@
+﻿@page "/usuario"
+@inject ISistemaUsuarioService _service
+@inject NavigationManager Navigation
+@attribute [Authorize(Roles = "Admin")]
+@inject SweetAlertService swal
+
+<h3>Usuarios</h3>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Lista de Usuarios</h4>
+            <button class="btn btn-primary mb-3" @onclick="NuevoUsuario"><i class="bi bi-plus-circle-fill"></i> Nuevo</button>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Empresa</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (sistemaUsuarios is not null)
+                    {
+                        @foreach (var usuario in sistemaUsuarios)
+                        {
+                            <tr>
+                                <td>@usuario.CodSistemaUsuario</td>
+                                <td>@usuario.NomSistemaUsuario</td>
+                                <td>@usuario.Empresa.NommaeEmpresa</td>
+                                <td>
+                                    <button   class="btn btn-warning" @onclick="() => EditarUsuario(usuario.IdSistemaUsuario)"><i class="bi bi-pencil-square"></i></button>
+                                    <button  class="btn btn-danger" @onclick="() => EliminarUsuario(usuario)"><i class="bi bi-trash"></i></button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+    private ICollection<SistemaUsuario>? sistemaUsuarios;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CargarUsuarios();
+    }
+
+    private async Task CargarUsuarios()
+    {
+        var response = await _service.ListAsync();
+        sistemaUsuarios = response.Data;
+    }
+
+    private void NuevoUsuario()
+    {
+        Navigation.NavigateTo("/usuario/datos");
+    }
+
+    private void EditarUsuario(int id)
+    {
+        Navigation.NavigateTo($"/usuario/datos/{id}");
+    }
+
+    private async Task EliminarUsuario(SistemaUsuario enty)
+    {
+        var title = "Usuario";
+        SweetAlertResult result = await swal.FireAsync(new SweetAlertOptions
+            {
+                Title = $"¿Esta seguro de eliminar {title}?",
+                Text = $"{enty.CodSistemaUsuario}:{enty.NomSistemaUsuario}",
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true,
+                ConfirmButtonText = "Si",
+                CancelButtonText = "No"
+            });
+        if (result.IsConfirmed)
+        {
+            var response = await _service.DeleteAsync(enty.IdSistemaUsuario);
+            if (response.Success)
+            {
+                await CargarUsuarios();
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(response.ErrorMessage))
+                {
+                    await swal.FireAsync(new SweetAlertOptions
+                        {
+                            Title = title,
+                            Text = $"{response.ErrorMessage}",
+                            Icon = SweetAlertIcon.Info
+                        });
+                }
+            }
+        }
+    }
+}

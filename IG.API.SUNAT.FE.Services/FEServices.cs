@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using API.API.SUNAT.Xml;
+using API.API.SUNAT.Xml.FE;
+using AutoMapper;
 using IG.API.SUNAT.FE.Dto;
 using IG.API.SUNAT.FE.Entity;
 using IG.API.SUNAT.FE.Repository;
@@ -218,6 +220,56 @@ namespace IG.API.SUNAT.FE.Services
                 response.ErrorMessage = $"Mensaje de Error al enviar GRE {ex.Message}";
             }
             return response;
+        }
+
+        public async Task<BaseResponseGeneric<FEComprobanteVenta>> LeerXmlAsync(LeerXMLDto request)
+        {
+            return await Task.Run(async () => {
+                var response = new BaseResponseGeneric<FEComprobanteVenta>();
+
+                try
+                {
+                    var xml = string.Empty;
+                    if (request.TipoArchivo == "zip")
+                    {
+                      var  _descomprimir =  await _apiUtil.DescomprimirXmlAndToBase64Async(request.Base64);
+                        xml = _descomprimir.Text;
+                    }
+                    else if(request.TipoArchivo == "zip")
+                    {
+                        xml = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(request.Base64));
+                    }
+                    else if (request.TipoArchivo == "txt")
+                    {
+                        xml = request.Base64;
+                    }
+
+                    BaseDocument document = XmlDeserializer.DeserializeXml(xml, request.TipoDocumento);
+                    var _comprobante = new FEComprobanteVenta();
+
+                    // Trabajar con el documento deserializado
+                    if (document is Invoice invoice)
+                        _comprobante = new FEComprobanteVenta(invoice);
+                    else if (document is CreditNote creditNote)
+                        _comprobante = new FEComprobanteVenta(creditNote);
+                    else if (document is DebitNote debitNote)
+                        _comprobante = new FEComprobanteVenta(debitNote);
+
+                    if (string.IsNullOrEmpty(_comprobante.CodTipoDocumento))
+                        _comprobante.CodTipoDocumento = request.TipoDocumento;
+
+                    response.Data = _comprobante;
+                    response.Success = response.Data != null;
+
+                }
+                catch (Exception ex)
+                {
+                    response.ErrorMessage = $"Mensaje de Error al Deserializar {ex.Message}";
+                }
+                return response;
+
+            });
+         
         }
     }
 }

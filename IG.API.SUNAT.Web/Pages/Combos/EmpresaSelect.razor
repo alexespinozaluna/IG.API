@@ -1,0 +1,35 @@
+﻿@inject IEmpresaService _service
+@typeparam TValue
+
+<InputSelectNumber class="form-control" disabled="@IsDisabled"
+           Value="@SelectedValue"
+           ValueChanged="@(SelectedValueChanged)"
+             ValueExpression="@(()=>SelectedValue)"
+>
+    <option value="" >Seleccione...</option>
+    @foreach (var empresa in Empresas)
+    {
+        <option value="@empresa.IdmaeEmpresa">@empresa.nvNumDocumentoIdentidad:@empresa.NommaeEmpresa</option>
+    }
+</InputSelectNumber>
+
+@code {
+    [Parameter] public TValue SelectedValue { get; set; }
+    [Parameter] public EventCallback<TValue> SelectedValueChanged { get; set; }
+    [Parameter] public bool IsDisabled { get; set; } = false;
+
+
+    private ICollection<maeEmpresa> Empresas { get; set; } = new List<maeEmpresa>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await _service.ListAsync();
+        Empresas = response.Data;
+    }
+
+   
+   
+}
+
+
+

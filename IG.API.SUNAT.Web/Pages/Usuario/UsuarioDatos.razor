@@ -1,0 +1,98 @@
+﻿@page "/usuario/datos/{id:int?}"
+@inject ISistemaUsuarioService userService
+@inject IApiUtil fn
+@inject NavigationManager Navigation
+@attribute [Authorize(Roles = "Admin")]
+<PageTitle>Usuario @Title</PageTitle>
+
+<h3>@Title</h3>
+
+@if (UsuarioActual is not null)
+{
+    <UsuarioForm 
+        UsuarioActual="UsuarioActual" 
+        OnValidSubmit="HandleValidSubmit" 
+        OnCancel="Cancelar" 
+        isEditing="@(id != null)"
+                 ChangePass="ChangePass" />
+}
+else
+{
+    <p>Cargando...</p>
+}
+<div class="container mt-5">
+        @if (!string.IsNullOrEmpty(MensajeError))
+    {
+        <div class="alert alert-danger mt-3">
+            <p>@MensajeError</p>
+            </div>
+        
+    }
+</div>
+@code {
+    [Parameter] public int? id { get; set; }
+
+    private SistemaUsuario? UsuarioActual;
+    private bool isCahangePass { get; set; } = false;
+    public string MensajeError { get; set; } = string.Empty;
+    public string Title { get; set; } 
+    protected override async Task OnInitializedAsync()
+    {
+        if (id == null)
+        {
+            UsuarioActual = new SistemaUsuario();
+            isCahangePass = true;
+            Title = "Nuevo";
+        }
+        else
+        {
+            var response = await userService.FindByIdAsync(id.Value);
+            UsuarioActual = response.Data;
+            isCahangePass = false;
+            Title = "Editar";
+        }
+    }
+
+    private async Task ChangePass(bool val)
+    {
+        isCahangePass = val;
+    }
+
+    private async Task HandleValidSubmit(SistemaUsuario usuario)
+    {
+        MensajeError = string.Empty;
+        if (isCahangePass)
+            usuario.PassUsuario = await fn.CifrarSha512(usuario.PassUsuario);
+
+        if (id == null)
+        {
+            var response = await userService.AddAsync(usuario);
+            if (response.Success)
+            {
+                Navigation.NavigateTo("/usuario");
+            }
+            else
+            {
+                MensajeError = response.ErrorMessage;
+            }
+        }
+        else
+        {
+            
+            var response = await userService.UpdateAsync(id.Value, usuario);
+            if (response.Success)
+            {
+                Navigation.NavigateTo("/usuario");
+            }
+            else
+            {
+                MensajeError = response.ErrorMessage;
+            }
+        }
+    }
+
+    private void Cancelar()
+    {
+        Navigation.NavigateTo("/usuario",true);
+    }
+}

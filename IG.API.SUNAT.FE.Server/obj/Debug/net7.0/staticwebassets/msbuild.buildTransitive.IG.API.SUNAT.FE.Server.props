@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\IG.API.SUNAT.FE.Server.props" />
+</Project>

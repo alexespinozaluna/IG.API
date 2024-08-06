@@ -1,0 +1,56 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+@using System.IO
+
+
+<InputFile OnChange="HandleFileSelected" class="@ClassFile" />
+@if (ImagePreview != null)
+{
+    <img src="@ImagePreview" alt="Image preview" style="max-width: 200px; max-height: 200px;" />
+}
+
+
+@code {
+    [Parameter] public EventCallback<byte[]> OnImageUploaded { get; set; }
+    [Parameter] public string ClassFile { get; set; } = string.Empty;
+    [Parameter] public string? InitialImage { get; set; }
+
+    private string? ImagePreview { get; set; }
+    private IBrowserFile selectedFile;
+
+    protected override void OnInitialized()
+    {
+        if (!string.IsNullOrEmpty(InitialImage))
+        {
+            ImagePreview = InitialImage;
+        }
+    }
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file != null)
+        {
+            // var buffer = new byte[file.Size];
+            // using (var stream = file.OpenReadStream())
+            // {
+            //     await stream.ReadAsync(buffer);
+            // }
+            // // ImagePreview = $"data:image/png;base64,{Convert.ToBase64String(buffer)}";
+            // await OnImageUploaded.InvokeAsync(buffer);
+
+
+            selectedFile = e.File;
+            var base64Image = string.Empty;
+            byte[] byteArray;
+            using (var memoryStream = new MemoryStream())
+            {
+                await selectedFile.OpenReadStream().CopyToAsync(memoryStream);
+                 byteArray = memoryStream.ToArray();
+                base64Image = Convert.ToBase64String(byteArray);
+                await OnImageUploaded.InvokeAsync(byteArray);
+            }
+            ImagePreview = $"data:image/png;base64,{base64Image}";
+
+            
+        }
+    }
+}

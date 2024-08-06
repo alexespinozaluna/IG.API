@@ -10,7 +10,6 @@ namespace IG.API.SUNAT.FE.Persistence.Configuration
         {
             builder.Property(p => p.FileName)
                   .HasMaxLength(250);
-
         }
     }
 }

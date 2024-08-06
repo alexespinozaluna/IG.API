@@ -1,0 +1,82 @@
+﻿@using IG.API.SUNAT.Web.Pages.Combos
+@attribute [Authorize(Roles = "Admin")]
+<PageTitle>@Title</PageTitle>
+
+<EditForm Model="DataActual" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group">
+        <label for="Email">Email</label>
+        <InputText id="Email" class="form-control" @bind-Value="DataActual.Email" />
+    </div>
+
+    <div class="form-group">
+        <label for="Host">Host</label>
+        <InputText id="Host" class="form-control" @bind-Value="DataActual.Host" />
+    </div>
+    <div class="form-group">
+        <label for="Port">Port</label>
+        <InputNumber id="Port" class="form-control" @bind-Value="DataActual.Port" />
+    </div>
+    <div class="form-group">
+        <label for="EnableSsl">Enable SSL</label>
+        <InputCheckbox id="EnableSsl" class="form-check-input" @bind-Value="DataActual.EnableSsl" />
+    </div>
+
+    <div class="form-group">
+        <label for="Password">Password</label>
+        <InputText id="Password" type="password" class="form-control" @bind-Value="DataActual.Password" />
+    </div>
+    <div class="form-group">
+        <label for="DisplayName">Display Name</label>
+        <InputText id="DisplayName" class="form-control" @bind-Value="DataActual.DisplayName" />
+    </div>
+
+    <div class="form-group">
+        <label for="IdmaeEmpresa">Empresa</label>
+        <EmpresaSelect TValue="int" SelectedValue="DataActual.IdEmpresa" SelectedValueChanged="OnEmpresaSelectChanged" />
+    </div>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button type="submit" class="btn btn-primary mt-3"><i class="bi bi-floppy2-fill"></i> @((isEditing ? "Guardar" : "Agregar"))</button>
+        <button type="button" class="btn btn-danger mt-3" @onclick="Cancel"><i class="bi bi-x-square"> Cancelar</i></button>
+    </div>
+
+</EditForm>
+
+@code {
+    [Parameter] public EmailConfig DataActual { get; set; } = new EmailConfig();
+    [Parameter] public EventCallback<EmailConfig> OnValidSubmit { get; set; }
+    [Parameter] public EventCallback OnCancel { get; set; }
+    [Parameter] public bool isEditing { get; set; } = false;
+    [Parameter] public string Title { get; set; }
+   public bool isChangePass { get; set; } = false;
+    [Parameter] public EventCallback<bool> ChangePass { get; set; }
+    private async Task HandleValidSubmit()
+    {
+        await OnValidSubmit.InvokeAsync(DataActual);
+    }
+
+    private async Task Cancel()
+    {
+        await OnCancel.InvokeAsync();
+    }
+    // private async Task ChangePass(ChangeEventArgs e)
+    // {
+    //     isChangePass = (bool)e.Value;
+    //     if (isChangePass)
+    //     {
+    //         isChangePass = true;
+    //         UsuarioActual.PassUsuario = "";
+    //     }
+    // }
+    private void OnEmpresaSelectChanged(int newValue)
+    {
+        DataActual.IdEmpresa = newValue;
+    }
+    private async Task OnChangePassChanged(ChangeEventArgs e)  // <-- Agregado
+    {
+        isChangePass = (bool)e.Value;
+        await ChangePass.InvokeAsync(isChangePass);
+    }
+
+}

@@ -9,6 +9,8 @@ namespace IG.API.SUNAT.FE.Services.Profiles
         public SUNAT_FE_ComprobanteProfile()
         {
             CreateMap<SUNAT_FE_Comprobante, ComprobanteResponseDto>();
+            CreateMap<maeEmpresa, maeEmpresa>();
+            CreateMap<SistemaUsuario, SistemaUsuario>();
         }
     }
 }

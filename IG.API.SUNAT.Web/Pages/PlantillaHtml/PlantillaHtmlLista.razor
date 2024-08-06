@@ -1,0 +1,105 @@
+﻿@page "/plantilla-html"
+<PageTitle>Plantilla HTML</PageTitle>
+@inject ItdHTMLService _service
+@inject NavigationManager Navigation
+@attribute [Authorize(Roles = "Admin")]
+@inject SweetAlertService swal
+
+<h3>Usuarios</h3>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Lista de Usuarios</h4>
+            <button class="btn btn-primary mb-3" @onclick="Nuevo"><i class="bi bi-plus-circle-fill"></i> Nuevo</button>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>IdtdHTML</th>
+                        <th>TipoHTML</th>
+                        <th>HTML</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (list is not null)
+                    {
+                        @foreach (var enty in list)
+                        {
+                            <tr>
+                                <td>@enty.IdtdHTML</td>
+                                <td>@enty.TipoHTML</td>
+                                <td> <a href="@ViewHTML(enty.IdtdHTML)" target="_blank"> Ver Html</a> </td>
+                                <td>
+                                    <button class="btn btn-warning" @onclick="() => Editar(enty.IdtdHTML)"><i class="bi bi-pencil-square"></i></button>
+                                    <button class="btn btn-danger" @onclick="() => Eliminar(enty)"><i class="bi bi-trash"></i></button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+    private ICollection<tdHTML>? list;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Cargar();
+    }
+
+    private async Task Cargar()
+    {
+        var response = await _service.ListAsync();
+        list = response.Data;
+    }
+
+    private void Nuevo()
+    {
+        Navigation.NavigateTo("/plantilla-html/datos");
+    }
+    private void Editar(int id)
+    {
+        Navigation.NavigateTo($"/plantilla-html/datos/{id}");
+    }
+    private static string ViewHTML(int id) => $"/plantilla-html/view/{id}";
+
+
+
+    private async Task Eliminar(tdHTML enty)
+    {
+        var title = "Plantilla HTMLS";
+        SweetAlertResult result = await swal.FireAsync(new SweetAlertOptions
+            {
+                Title = $"¿Esta seguro de eliminar {title}?",
+                Text = $"{enty.IdtdHTML}:{enty.TipoHTML}",
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true,
+                ConfirmButtonText = "Si",
+                CancelButtonText = "No"
+            });
+        if (result.IsConfirmed)
+        {
+            var response = await _service.DeleteAsync(enty.IdtdHTML);
+            if (response.Success)
+            {
+                await Cargar();
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(response.ErrorMessage))
+                {
+                    await swal.FireAsync(new SweetAlertOptions
+                        {
+                            Title = title,
+                            Text = $"{response.ErrorMessage}",
+                            Icon = SweetAlertIcon.Info
+                        });
+                }
+            }
+        }
+    }
+}

@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\IG.API.SUNAT.RUC.props" />
-</Project>

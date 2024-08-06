@@ -1,0 +1,153 @@
+﻿@using IG.API.SUNAT.Web.Pages.Genericos
+@attribute [Authorize(Roles = "Admin")]
+    <EditForm Model="DataActual" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+
+    <div class="row g-3">
+        <div class="col-md-4 col-sm-12">
+            <label for="NommaeEmpresa" class="control-label">Nombre Empresa</label>
+            <InputText id="NommaeEmpresa" class="form-control" @bind-Value="DataActual.NommaeEmpresa"  />
+            <ValidationMessage For="@(() => DataActual.NommaeEmpresa)" />
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+            <label for="nvNumDocumentoIdentidad" class="control-label">Número de Documento</label>
+            <InputText id="nvNumDocumentoIdentidad" class="form-control" @bind-Value="DataActual.nvNumDocumentoIdentidad"  />
+            <ValidationMessage For="@(() => DataActual.nvNumDocumentoIdentidad)" />
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+            <label for="nvCodTipoDocumentoIdentidad" class="control-label">Código Documento</label>
+            <InputText id="nvCodTipoDocumentoIdentidad" class="form-control" @bind-Value="DataActual.nvCodTipoDocumentoIdentidad"  />
+            <ValidationMessage For="@(() => DataActual.nvCodTipoDocumentoIdentidad)" />
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+            <label for="bProduccion" class="control-label">Es Producción</label>
+            <InputCheckbox id="bProduccion" class="form-check-input" @bind-Value="DataActual.bProduccion" />
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <label for="nvEncoding" class="control-label">Encoding</label>
+            <InputText id="nvEncoding" class="form-control" @bind-Value="DataActual.nvEncoding" />
+            <ValidationMessage For="@(() => DataActual.nvEncoding)" />
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <label for="nvURLFE" class="control-label">URL FE SOAP</label>
+            <InputText id="nvURLFE" class="form-control" @bind-Value="DataActual.nvURLFE"  />
+            <ValidationMessage For="@(() => DataActual.nvURLFE)" />
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <label for="nvUsuarioFE" class="control-label">Usuario FE</label>
+            <InputText id="nvUsuarioFE" class="form-control" @bind-Value="DataActual.nvUsuarioFE"  />
+            <ValidationMessage For="@(() => DataActual.nvUsuarioFE)" />
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+            <label for="nvClaveFE" class="control-label">Clave FE</label>
+            <InputText id="nvClaveFE" class="form-control" @bind-Value="DataActual.nvClaveFE"  />
+            <ValidationMessage For="@(() => DataActual.nvClaveFE)" />
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+            <label for="nvProveedorFE" class="control-label">Proveedor FE</label>
+            <InputText id="nvProveedorFE" class="form-control" @bind-Value="DataActual.nvProveedorFE"  />
+            <ValidationMessage For="@(() => DataActual.nvProveedorFE)" />
+        </div>
+      </div>
+    <div class="row g-3">
+        <div class="col-md-12 col-sm-12">
+            <label for="ntSoapFE" class="control-label">Soap FE</label>
+            <InputTextArea id="ntSoapFE" class="form-control" @bind-Value="DataActual.ntSoapFE" />
+            <ValidationMessage For="@(() => DataActual.ntSoapFE)" />
+        </div>
+      </div>
+    <div class="row g-3">
+        <div class="col-md-4 col-sm-12">
+            <label for="nvScopeApiFE" class="control-label">Scope Api FE</label>
+            <InputText id="nvScopeApiFE" class="form-control" @bind-Value="DataActual.nvScopeApiFE" />
+            <ValidationMessage For="@(() => DataActual.nvScopeApiFE)" />
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+            <label for="nvClientIdApiFE" class="control-label">Cliente ID Api FE</label>
+            <InputText id="nvClientIdApiFE" class="form-control" @bind-Value="DataActual.nvClientIdApiFE" />
+            <ValidationMessage For="@(() => DataActual.nvClientIdApiFE)" />
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+            <label for="nvClientSecretApiFE" class="control-label">Client Secret Api FE</label>
+            <InputText id="nvClientSecretApiFE" class="form-control" @bind-Value="DataActual.nvClientSecretApiFE" />
+            <ValidationMessage For="@(() => DataActual.nvClientSecretApiFE)" />
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+            <label for="nvURLTokenApiFE" class="control-label">URL Token Api FE</label>
+            <InputText id="nvURLTokenApiFE" class="form-control" @bind-Value="DataActual.nvURLTokenApiFE" />
+            <ValidationMessage For="@(() => DataActual.nvURLTokenApiFE)" />
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+            <label for="nvURLEnvioApiFE" class="control-label">URL Envío Api FE</label>
+            <InputText id="nvURLEnvioApiFE" class="form-control" @bind-Value="DataActual.nvURLEnvioApiFE" />
+            <ValidationMessage For="@(() => DataActual.nvURLEnvioApiFE)" />
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+            <label for="nvURLConsultaApiFE" class="control-label">URL Consulta Api FE</label>
+            <InputText id="nvURLConsultaApiFE" class="form-control" @bind-Value="DataActual.nvURLConsultaApiFE" />
+            <ValidationMessage For="@(() => DataActual.nvURLConsultaApiFE)" />
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+            <label for="nvURLFECDR" class="control-label">URL FE CDR</label>
+            <InputText id="nvURLFECDR" class="form-control" @bind-Value="DataActual.nvURLFECDR" />
+            <ValidationMessage For="@(() => DataActual.nvURLFECDR)" />
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <label for="imLogo" class="control-label">Logo</label>
+            <ImageUpload OnImageUploaded="HandleImageUploaded" ClassFile="form-control" InitialImage="@InitialImage" />
+        </div>
+    </div>
+   
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button type="submit" class="btn btn-primary mt-3"><i class="bi bi-floppy2-fill"></i> @((isEditing ? "Guardar" : "Agregar"))</button>
+        <button type="button" class="btn btn-danger mt-3" @onclick="Cancel"><i class="bi bi-x-square"> Cancelar</i></button>
+    </div>
+
+    </EditForm>
+
+
+
+
+    @code {
+        [Parameter] public maeEmpresa DataActual { get; set; } = new maeEmpresa();
+        [Parameter] public EventCallback<maeEmpresa> OnValidSubmit { get; set; }
+        [Parameter] public EventCallback OnCancel { get; set; }
+        [Parameter] public bool isEditing { get; set; } = false;
+    public string? InitialImage { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        if (DataActual?.imLogo != null)
+        {
+            InitialImage = $"data:image/png;base64,{Convert.ToBase64String(DataActual.imLogo)}";
+        }
+    }
+
+        private async Task HandleValidSubmit()
+        {
+        await OnValidSubmit.InvokeAsync(DataActual);
+        }
+
+        private async Task Cancel()
+        {
+        await OnCancel.InvokeAsync();
+        }
+
+    private void HandleImageUploaded(byte[] image)
+    {
+        DataActual.imLogo = image;
+    }
+    }
+

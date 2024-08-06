@@ -12,6 +12,22 @@ namespace IG.API.SUNAT.FE.Repository
         {
         }
 
+        public async Task<ICollection<SUNAT_FE_Comprobante>> GetByDate(ComprobanteFilterDto request)
+        {
+            // Codigo
+            var response = await Task.Run(() =>
+            {
+                return Context.Set<SUNAT_FE_Comprobante>()
+                .AsNoTracking()
+                      .Where(p =>
+                      p.IdmaeEmpresa == request.IdmaeEmpresa
+                      && (p.FechaCreacion.Date >= request.FechaInicio.Date && p.FechaCreacion.Date <= request.FechaFin.Date))
+                      .ToList();
+            });
+
+            return response;
+        }
+
         public async Task<int> GetIdByIdComprobanteAndTicket(string IdComprobante, string Ticket)
         {
             // Codigo
@@ -23,7 +39,7 @@ namespace IG.API.SUNAT.FE.Repository
                       .Max(c => (int?)c.Id) ?? 0;
             });
 
-            return  maxId;
+            return maxId;
         }
     }
 }

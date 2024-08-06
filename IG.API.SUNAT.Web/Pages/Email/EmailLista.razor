@@ -1,0 +1,111 @@
+﻿@page "/email"
+@inject IEmailConfigService _service
+@inject NavigationManager Navigation
+@attribute [Authorize(Roles = "Admin")]
+@inject SweetAlertService swal
+<PageTitle>Lista de Email</PageTitle>
+
+
+<h3>Usuarios</h3>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Lista de Usuarios</h4>
+            <button class="btn btn-primary mb-3" @onclick="Nuevo"><i class="bi bi-plus-circle-fill"></i> Nuevo</button>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Host</th>
+                        <th>EnableSsl</th>
+                        <th>DisplayName</th>
+                        <th>F. Creacion</th>
+                        <th>Empresa</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (EmailConfigs is not null)
+                    {
+                        @foreach (var enty in EmailConfigs)
+                        {
+                            <tr>
+                                <td>@enty.Email</td>
+                                <td>@enty.Host</td>
+                                <td>@enty.EnableSsl</td>
+                                <td>@enty.DisplayName</td>
+                                <td>@enty.FechaCreacion</td>
+                                <td>@enty.Empresa.NommaeEmpresa</td>
+                                <td>
+                                    <button   class="btn btn-warning" @onclick="() => Editar(enty.Id)"><i class="bi bi-pencil-square"></i></button>
+                                    <button  class="btn btn-danger" @onclick="() => Eliminar(enty)"><i class="bi bi-trash"></i></button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+    private ICollection<EmailConfig>? EmailConfigs;
+    public string Title { get; set; } = "Email";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Cargar();
+    }
+
+    private async Task Cargar()
+    {
+        var response = await _service.ListAsync();
+        EmailConfigs = response.Data;
+    }
+
+    private void Nuevo()
+    {
+        Navigation.NavigateTo($"/email/datos/{Title}");
+    }
+
+    private void Editar(int id)
+    {
+        Navigation.NavigateTo($"/email/datos/{Title}/{id}");
+    }
+
+    private async Task Eliminar(EmailConfig enty)
+    {
+       
+        SweetAlertResult result = await swal.FireAsync(new SweetAlertOptions
+            {
+                Title = $"¿Esta seguro de eliminar {Title}?",
+                Text = $"{enty.Email}:{enty.DisplayName}",
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true,
+                ConfirmButtonText = "Si",
+                CancelButtonText = "No"
+            });
+        if (result.IsConfirmed)
+        {
+            var response = await _service.DeleteAsync(enty.Id);
+            if (response.Success)
+            {
+                await Cargar();
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(response.ErrorMessage))
+                {
+                    await swal.FireAsync(new SweetAlertOptions
+                        {
+                            Title =Title,
+                            Text = $"{response.ErrorMessage}",
+                            Icon = SweetAlertIcon.Info
+                        });
+                }
+            }
+        }
+    }
+}

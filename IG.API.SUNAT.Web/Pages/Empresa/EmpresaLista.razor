@@ -1,0 +1,130 @@
+﻿@attribute [Authorize(Roles = "Admin")]
+@page "/empresa"
+@inject IEmpresaService empresaService
+@inject NavigationManager Navigation
+@inject SweetAlertService swal
+<PageTitle>Empresa Lista</PageTitle>
+
+<h1>Listado de Empresas</h1>
+<p>
+    <button class="btn btn-primary" @onclick="NuevoEmpresa"><i class="bi bi-plus-circle-fill"></i> Nuevo</button>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Documento Identidad</th>
+            <th>Producción</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (empresas != null)
+        {
+            @foreach (var empresa in empresas)
+            {
+                <tr>
+                    <td>@empresa.IdmaeEmpresa</td>
+                    <td>@empresa.NommaeEmpresa</td>
+                    <td>@empresa.nvNumDocumentoIdentidad (@empresa.nvCodTipoDocumentoIdentidad)</td>
+                    <td>
+                        @if (empresa.bProduccion)
+                        {
+                            <span>si</span>
+                        }
+                        else
+                        {
+                            <span>no</span>
+                        }
+                    </td>
+                    <td>
+                        <button class="btn btn-warning" @onclick="() => EditarEmpresa(empresa.IdmaeEmpresa)"><i class="bi bi-pencil-square"></i></button>
+                        |<button class="btn btn-info" @onclick="() => VerCertificado(empresa.IdmaeEmpresa)">
+                            @if (empresa.ntCertificadoPfx != null && empresa.ntCertificadoPfx.Length > 100)
+                            {
+                                <i class="bi bi-file-earmark-medical">Cer</i>
+                            }
+                            else
+                            {
+                                <i class="bi bi-file-earmark-fill">Cer</i>
+                            }
+                        </button>
+                        |<button class="btn btn-secondary" @onclick="() => VerDetalles(empresa.IdmaeEmpresa)"><i class="bi bi-ticket-detailed"></i>Det</button>
+                        |<button class="btn btn-danger" @onclick="() => EliminarEmpresa(empresa)"><i class="bi bi-trash"></i></button>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@code {
+    private IEnumerable<maeEmpresa>? empresas;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CargarEmpresas();
+    }
+
+    private async Task CargarEmpresas()
+    {
+        var response = await empresaService.ListAsync();
+        empresas = response.Data;
+    }
+
+    private void NuevoEmpresa()
+    {
+        Navigation.NavigateTo("/empresa/datos");
+    }
+
+    private void EditarEmpresa(int id)
+    {
+        Navigation.NavigateTo($"/empresa/datos/{id}");
+    }
+
+    private void VerDetalles(int id)
+    {
+        Navigation.NavigateTo($"/empresa/detalle/{id}");
+    }
+
+    private void VerCertificado(int id)
+    {
+        Navigation.NavigateTo($"/empresa/certificado/{id}");
+    }
+
+    private async Task EliminarEmpresa(maeEmpresa empresa)
+    {
+        var title = "Empresa";
+        SweetAlertResult result = await swal.FireAsync(new SweetAlertOptions
+            {
+                Title = $"¿Esta seguro de eliminar {title}?",
+                Text = $"{empresa.nvNumDocumentoIdentidad}:{empresa.NommaeEmpresa}",
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true,
+                ConfirmButtonText = "Si",
+                CancelButtonText = "No"
+            });
+        if (result.IsConfirmed)
+        {
+            var response = await empresaService.DeleteAsync(empresa.IdmaeEmpresa);
+            if (response.Success)
+            {
+                await CargarEmpresas();
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(response.ErrorMessage))
+                {
+                    await swal.FireAsync(new SweetAlertOptions
+                        {
+                            Title =title,
+                            Text = $"{response.ErrorMessage}",
+                            Icon = SweetAlertIcon.Info
+                        });
+                }
+            }
+        }
+    }
+}

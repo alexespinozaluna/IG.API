@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IG.API.SUNAT.FE\IG.API.SUNAT.FE.csproj" />
+    <ProjectReference Include="..\IG.API.SUNAT.FE\IG.API.SUNAT.FE.WebApi.csproj" />
   </ItemGroup>
 
 </Project>

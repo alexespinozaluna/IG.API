@@ -1,0 +1,100 @@
+﻿@page "/email/datos/{Title}/{id:int?}"
+@inject IEmailConfigService _service
+@inject IApiUtil fn
+@inject NavigationManager Navigation
+@attribute [Authorize(Roles = "Admin")]
+<PageTitle>@Title</PageTitle>
+
+<h3>@Title</h3>
+
+@if (DataActual is not null)
+{
+    <EmailForm 
+       DataActual="DataActual" 
+        OnValidSubmit="HandleValidSubmit" 
+        OnCancel="Cancelar" 
+        isEditing="@(id != null)"
+                 ChangePass="ChangePass"
+                 Title="@Title"
+                 />
+}
+else
+{
+    <p>Cargando...</p>
+}
+<div class="container mt-5">
+        @if (!string.IsNullOrEmpty(MensajeError))
+    {
+        <div class="alert alert-danger mt-3">
+            <p>@MensajeError</p>
+            </div>
+        
+    }
+</div>
+@code {
+    [Parameter] public int? id { get; set; }
+
+    private EmailConfig? DataActual;
+    private bool isCahangePass { get; set; } = false;
+    public string MensajeError { get; set; } = string.Empty;
+    [Parameter] public string Title { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (id == null)
+        {
+            DataActual = new EmailConfig();
+            isCahangePass = true;
+            Title += " Nuevo";
+        }
+        else
+        {
+            var response = await _service.FindByIdAsync(id.Value);
+            DataActual = response.Data;
+            isCahangePass = false;
+            Title += " Editar";
+        }
+    }
+
+    private async Task ChangePass(bool val)
+    {
+        isCahangePass = val;
+    }
+
+    private async Task HandleValidSubmit(EmailConfig enty)
+    {
+        MensajeError = string.Empty;
+       
+
+        if (id == null)
+        {
+            var response = await _service.AddAsync(enty);
+            if (response.Success)
+            {
+                Navigation.NavigateTo("/email");
+            }
+            else
+            {
+                MensajeError = response.ErrorMessage;
+            }
+        }
+        else
+        {
+            
+            var response = await _service.UpdateAsync(id.Value, enty);
+            if (response.Success)
+            {
+                Navigation.NavigateTo("/email");
+            }
+            else
+            {
+                MensajeError = response.ErrorMessage;
+            }
+        }
+    }
+
+    private void Cancelar()
+    {
+        Navigation.NavigateTo("/email",true);
+    }
+}

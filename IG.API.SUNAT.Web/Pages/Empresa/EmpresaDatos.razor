@@ -1,0 +1,81 @@
+﻿@page "/empresa/datos/{id:int?}"
+@inject IEmpresaService service
+@inject IApiUtil fn
+@inject NavigationManager Navigation
+@attribute [Authorize(Roles = "Admin")]
+<PageTitle>Empresa @Title</PageTitle>
+
+<h3>@Title</h3>
+@if (datoActual is not null)
+{
+    <EmpresaForm DataActual="datoActual" OnValidSubmit="HandleValidSubmit" OnCancel="Cancelar" isEditing="@(id != null)" />
+    <div class="row g-3">
+        @if (!string.IsNullOrEmpty(mensaje))
+    {
+        <div class="alert alert-danger mt-3">
+            <p>@mensaje</p>
+            </div>
+        
+    }
+</div>
+}
+else
+{
+    <p>Cargando...</p>
+}
+
+@code {
+    [Parameter] public int? id { get; set; }
+    private maeEmpresa? datoActual;
+    private string mensaje;
+    public string Title { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        if (id == null)
+        {
+            datoActual = new maeEmpresa();
+            Title = "Nuevo";
+        }
+        else
+        {
+            var response = await service.FindByIdAsync(id.Value);
+            datoActual = response.Data;
+            mensaje = response.ErrorMessage;
+            Title = "Editar";
+
+        }
+    }
+
+    private async Task HandleValidSubmit(maeEmpresa dato)
+    {
+        if (id == null)
+        {
+            var response = await service.AddAsync(dato);
+            if (response.Success)
+            {
+                Navigation.NavigateTo("/empresa");
+            }
+            else
+            {
+                mensaje = response.ErrorMessage;
+            }
+        }
+        else
+        {
+            var response = await service.UpdateAsync(id.Value, dato);
+            if (response.Success)
+            {
+                Navigation.NavigateTo("/empresa");
+            }
+            else
+            {
+                mensaje = response.ErrorMessage;
+            }
+        }
+    }
+
+    private void Cancelar()
+    {
+        Navigation.NavigateTo("/empresa");
+    }
+}

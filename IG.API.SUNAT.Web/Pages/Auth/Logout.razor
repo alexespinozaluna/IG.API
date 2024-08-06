@@ -1,0 +1,23 @@
+﻿@page "/logout"
+@inject NavigationManager navManager
+@inject AuthenticationStateProvider authStateProvider
+
+<p>Deslogueando...</p>
+
+@code {
+
+    protected async override Task OnInitializedAsync()
+    {
+        var proveedorEstado = (ProveedorAutenticacion)authStateProvider;
+
+        var status = await proveedorEstado.GetAuthenticationStateAsync();
+        if(status.User != null)
+        {
+           await proveedorEstado.UpdateAuthenticationState(null);
+           navManager.NavigateTo("/", true);
+        }
+        
+   
+    }
+
+}

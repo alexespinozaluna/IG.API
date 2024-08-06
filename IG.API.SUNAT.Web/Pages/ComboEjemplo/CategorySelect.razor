@@ -1,0 +1,43 @@
+﻿@using IG.API.SUNAT.Web.Pages.Combos
+@inject ICategoryService CategoryService
+@typeparam TValue
+
+<InputSelectNumber class="form-control"
+                   Value="@SelectedValue"
+                   ValueChanged="@(SelectedValueChanged)"
+                   ValueExpression="@(()=>SelectedValue)">
+    <option value="">Seleccione...</option>
+    @foreach (var category in Categories)
+    {
+        <option value="@category.Id">@category.Name</option>
+    }
+</InputSelectNumber>
+
+@code {
+    [Parameter] public TValue SelectedValue { get; set; }
+    [Parameter] public EventCallback<TValue> SelectedValueChanged { get; set; }
+
+    private List<Category> Categories { get; set; } = new List<Category>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await CategoryService.GetCategoriesAsync();
+        Categories = response.ToList();
+    }
+
+    private async Task OnValueChanged(ChangeEventArgs e)
+    {
+        TValue newValue;
+        if (typeof(TValue) == typeof(int))
+        {
+            newValue = (TValue)(object)int.Parse(e.Value.ToString());
+        }
+        else
+        {
+            newValue = (TValue)e.Value;
+        }
+
+        SelectedValue = newValue;
+        await SelectedValueChanged.InvokeAsync(newValue);
+    }
+}

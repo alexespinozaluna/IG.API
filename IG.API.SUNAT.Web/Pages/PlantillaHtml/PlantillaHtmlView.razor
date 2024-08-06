@@ -1,0 +1,32 @@
+﻿@layout EmptyLayout
+<PageTitle>Plantilla HTML</PageTitle>
+@page "/plantilla-html/view/{id:int}"
+@inject ItdHTMLService _service;
+
+@if (!string.IsNullOrEmpty(Stringhtml))
+{
+    @((MarkupString)Stringhtml)
+}
+
+@code {
+    [Parameter] public int id { get; set; }
+    public string Stringhtml { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        var response = await _service.FindByIdAsync(id);
+        var data = response.Data;
+        if (data != null)
+        {
+            Stringhtml = data.HTML;
+        }
+        else
+        {
+            Stringhtml = $"<p>{response.ErrorMessage}</p>";
+        }
+
+    }
+}
+
+}

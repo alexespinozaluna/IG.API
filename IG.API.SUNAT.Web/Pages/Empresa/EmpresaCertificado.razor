@@ -1,0 +1,172 @@
+﻿@page "/empresa/certificado/{id:int}"
+@attribute [Authorize(Roles = "Admin")]
+@using System.ComponentModel.DataAnnotations
+@using System.Security.Cryptography.X509Certificates;
+@inject NavigationManager Navigation
+@inject IEmpresaService _service
+<PageTitle>Empresa Certificado</PageTitle>
+
+
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1"> <strong>Subir Certificado Digital</strong></span>
+    </div>
+</nav>
+
+@if(empresa is not null)
+{
+    <h2>@empresa.nvNumDocumentoIdentidad (@empresa.nvCodTipoDocumentoIdentidad) - @empresa.NommaeEmpresa </h2>
+}
+
+<div class="container mt-5">
+    <EditForm Model="certificadoModel" OnValidSubmit="SubirCertificado">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label for="archivoCertificado" class="form-label">Archivo Certificado</label>
+                <InputFile OnChange="OnInputFileChange" class="form-control" accept=".pfx,.cer" />
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label for="claveCertificado" class="form-label">Clave del Certificado</label>
+                <InputText id="claveCertificado" @bind-Value="certificadoModel.ClaveCertificado" class="form-control" />
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button type="submit" class="btn btn-primary mt-3"><i class="bi bi-cloud-check"></i> Subir Certificado</button>
+                    <button type="button" class="btn btn-danger mt-3" @onclick="Cancel"><i class="bi bi-x-square"> Cancelar</i></button>
+                </div>
+            </div>
+        </div>
+    </EditForm>
+
+    @if (!string.IsNullOrEmpty(mensaje))
+    {
+        <div class="alert alert-danger mt-3">
+            <p>@mensaje</p>
+            </div>
+        
+    }
+</div>
+
+@* @if(cert != null)
+{
+    <div class="container mt-5">
+        <div class="row g-3">
+            <p><string>Fecha Inicio:</string>@cert.NotAfter</p>
+            <p><string>Fecha Vencimiento:</string>@cert.NotAfter</p>
+            <p><string>Fecha Inicio:</string>@cert.NotAfter</p>
+        </div>
+    </div>
+} *@
+
+
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    private maeEmpresa? empresa;
+
+    private CertificadoModel certificadoModel = new CertificadoModel();
+    public CertificadoDigital cert { get; set; } = new CertificadoDigital();
+    private IBrowserFile  archivoCertificado;
+    private string mensaje;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetEmpresa();
+    }
+
+    private async Task GetEmpresa()
+    {
+        if (id > 0)
+        {
+            var response = await _service.FindByIdAsync(id);
+            empresa = response.Data;
+
+        }
+
+    }
+    private async Task Cancel()
+    {
+        Navigation.NavigateTo("/empresa");
+    }
+
+    private async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        archivoCertificado = e.File;
+    }
+
+    private async Task SubirCertificado()
+    {
+        try
+        {
+            if (archivoCertificado != null && archivoCertificado.Size > 0 && !string.IsNullOrEmpty(certificadoModel.ClaveCertificado))
+            {
+                using (var ms = new MemoryStream())
+                {
+                    await archivoCertificado.OpenReadStream().CopyToAsync(ms);
+                    var certificadoBytes = ms.ToArray();
+
+                    // Cargar el certificado digital desde los bytes y la clave
+                    var certificado = new X509Certificate2(certificadoBytes, certificadoModel.ClaveCertificado);
+
+                    // Crear una instancia de CertificadoDigital
+                    var certificadoDigital = new CertificadoDigital
+                    {
+                        Certificado = certificadoBytes,
+                        NotBefore = certificado.NotBefore,
+                        NotAfter = certificado.NotAfter,
+                        Subject = certificado.Subject,
+                        Issuer= certificado.Issuer,
+                        FriendlyName = certificado.FriendlyName,
+                        Base64 = Convert.ToBase64String(certificadoBytes)
+                    };
+                    var response = await _service.FindByIdAsync(id);
+
+                  
+
+                    var emp = response.Data;
+                    emp.ntCertificadoPfx = certificadoDigital.Base64;
+                    emp.nvCertificadoPass = certificadoModel.ClaveCertificado;
+
+                    await _service.UpdateAsync(id, emp);
+                    mensaje = string.Empty;
+                   Navigation.NavigateTo("/empresa");
+                }
+            }
+            else
+            {
+                mensaje = "Asegúrate de cargar un certificado y proporcionar la clave.";
+            }
+        }
+        catch (Exception ex)
+        {
+            mensaje = $"Error: {ex.Message}";
+        }
+    }
+
+    public class CertificadoDigital
+    {
+        public byte[] Certificado { get; set; }
+        public DateTime NotBefore { get; set; }
+        public DateTime NotAfter { get; set; }     
+        public string Issuer { get; set; }
+        public string FriendlyName { get; set; }
+        public string Subject { get; set; }
+        public string Base64 { get; set; }
+    }
+
+    public class CertificadoModel
+    {
+        [Required(ErrorMessage = "La clave del certificado es obligatoria.")]
+        public string ClaveCertificado { get; set; }
+    }
+
+}
