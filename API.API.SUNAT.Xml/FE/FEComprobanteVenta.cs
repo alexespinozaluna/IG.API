@@ -17,6 +17,8 @@
         public FEPersona Emisor { get; set; }
         public FEPersona Cliente { get; set; }
         public double TotalImpuestos { get; set; }
+        public List<FECondicionesPago> CondicionesPagos { get; set; } = new List<FECondicionesPago>();
+        public FECargoDescuento CargoDescuento { get; set; } 
         public List<FEImpuestos> Impuestos { get; set; } = new List<FEImpuestos>();
         public double DescuentosGlobales { get; set; }
         public double TotalAnticipo { get; set; }
@@ -28,20 +30,20 @@
         public double? TotalValorVenta { get; set; }
         public double? TotalPrecioVenta { get; set; }
         public double? MontoRedondeo { get; set; }
-        public string FormaDePago { get; set; }
+        //public string FormaDePago { get; set; }
         public string? Det_Cod_Medio_Pago { get; set; }
         public string? Det_Num_Banco { get; set; }
-        public string? Det_Codigo { get; set; }
-        public double? Det_Monto_Afecto { get; set; }
-        public double? Det_Tasa { get; set; }
-        public string? Det_Moneda { get; set; }
-        public double? Det_Monto { get; set; }
+        //public string? Det_Codigo { get; set; }
+        //public double? Det_Monto_Afecto { get; set; }
+        //public double? Det_Tasa { get; set; }
+        //public string? Det_Moneda { get; set; }
+        //public double? Det_Monto { get; set; }
         public string? Ret_Codigo { get; set; }
         public double? Ret_Factor { get; set; }
         public double? Ret_Monto { get; set; }
         public double? Ret_Monto_Afecto { get; set; }
         public double? Ret_Neto_Pagar { get; set; }
-        public string? CorreoCliente { get; set; }
+        //public string? CorreoCliente { get; set; }
         public string? NumSerieCorrelativoMod { get; set; }
         public string? CodTipoDocumentoMod { get; set; }
         public string? CodTipoNota { get; set; }
@@ -56,8 +58,8 @@
         public FEComprobanteVenta(BaseDocument baseDoc)
         {
 
-            ProcessPaymentTerms(baseDoc.PaymentTerms, out var paymentTermsDet, out var paymentTermsFp);
-            var paymentMeans = baseDoc?.PaymentMeans;
+            //ProcessPaymentTerms(baseDoc.PaymentTerms, out var paymentTermsDet, out var paymentTermsFp);
+         
 
             // Asignar propiedades
             VerUBL = baseDoc.UBLVersionID;
@@ -103,25 +105,37 @@
 
             NumOrdenCompra = baseDoc?.OrderReference?.ID?.Value;
 
-            // Asignar propiedades de medios de pago
+            //Medio de pago
+            var paymentMeans = baseDoc?.PaymentMeans;
             if (paymentMeans != null)
             {
                 Det_Cod_Medio_Pago = paymentMeans.PaymentMeansCode;
                 Det_Num_Banco = paymentMeans?.PayeeFinancialAccount?.ID?.Value;
             }
-            //Detracion
-            Det_Monto_Afecto = double.TryParse(paymentTermsDet?.Note?.Value, out var detMontoAfecto) ? (double?)detMontoAfecto : null;
-            Det_Tasa = paymentTermsDet?.PaymentPercent;
-            Det_Moneda = paymentTermsDet?.Amount?.CurrencyID;
-            Det_Monto = paymentTermsDet?.Amount?.Value;
 
+            // Asignar propiedades de Formas de pago
+            foreach ( var payment in baseDoc.PaymentTerms)
+            {
+                CondicionesPagos.Add( new FECondicionesPago(payment));
+
+            }
+           
+            //Cargo/ Descuento
+            CargoDescuento = new FECargoDescuento(baseDoc.AllowanceCharge); 
+
+            //Detracion
+            //Det_Monto_Afecto = double.TryParse(paymentTermsDet?.Note?.Value, out var detMontoAfecto) ? (double?)detMontoAfecto : null;
+            //Det_Tasa = paymentTermsDet?.PaymentPercent;
+            //Det_Moneda = paymentTermsDet?.Amount?.CurrencyID;
+            //Det_Monto = paymentTermsDet?.Amount?.Value;
+            
             Emisor = new FEEmisor(baseDoc.AccountingSupplierParty);
             Cliente = new FECliente(baseDoc.AccountingCustomerParty);
 
-            if (paymentTermsFp.Any())
-            {
-                FormaDePago = paymentTermsFp[0].PaymentMeansID;
-            }
+            //if (paymentTermsFp.Any())
+            //{
+            //    FormaDePago = paymentTermsFp[0].PaymentMeansID;
+            //}
 
             TotalImpuestos = baseDoc.TaxTotal.TaxAmount;
             foreach (var taxSubtotal in baseDoc.TaxTotal.TaxSubtotals)
@@ -159,6 +173,7 @@
             }
 
         }
+        /*
         private void ProcessPaymentTerms(List<PaymentTerms> paymentTerms, out PaymentTerms paymentTermsDet, out List<PaymentTerms> paymentTermsFp)
         {
             paymentTermsDet = new PaymentTerms();
@@ -175,6 +190,7 @@
                 }
             }
         }
+        */
 
     }
 }

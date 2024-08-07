@@ -63,6 +63,9 @@ namespace API.API.SUNAT.Xml
         public PaymentMeans PaymentMeans { get; set; }
         [XmlElement(ElementName = "PaymentTerms", Namespace = UBLNamespaces.cac)]
         public List<PaymentTerms> PaymentTerms { get; set; }
+        [XmlElement(ElementName = "AllowanceCharge", Namespace = UBLNamespaces.cac)]
+        public AllowanceCharge AllowanceCharge { get; set; }
+
         [XmlElement(ElementName = "TaxTotal", Namespace = UBLNamespaces.cac)]
         public TaxTotal TaxTotal { get; set; }
         [XmlElement(ElementName = "LegalMonetaryTotal", Namespace = UBLNamespaces.cac)]
@@ -74,6 +77,20 @@ namespace API.API.SUNAT.Xml
         [XmlElement(ElementName = "CreditNoteLine", Namespace = UBLNamespaces.cac)]
         public List<CreditNoteLine>? CreditNoteLines { get; set; }
 
+    }
+
+    public class AllowanceCharge
+    {
+        [XmlElement(ElementName = "ChargeIndicator", Namespace = UBLNamespaces.cbc)]
+        public bool ChargeIndicator { get; set; }
+        [XmlElement(ElementName = "AllowanceChargeReasonCode", Namespace = UBLNamespaces.cbc)]
+        public string AllowanceChargeReasonCode { get; set; }
+        [XmlElement(ElementName = "MultiplierFactorNumeric", Namespace = UBLNamespaces.cbc)]
+        public double MultiplierFactorNumeric { get; set; }
+        [XmlElement(ElementName = "Amount", Namespace = UBLNamespaces.cbc)]
+        public Amount Amount { get; set; }
+        [XmlElement(ElementName = "BaseAmount", Namespace =UBLNamespaces.cbc)]
+        public double BaseAmount { get; set; }
     }
 
     public class DiscrepancyResponse
