@@ -32,6 +32,7 @@ builder.Services.AddDbContext<IGAPIFEAppDbContext>(options =>
 });
 
 
+#region INYECION_DEPENDECIA
 builder.Services.AddTransient<IFnDb, FnDb>();
 builder.Services.AddTransient<IMaeEmpresaRepo, MaeEmpresaRepo>();
 builder.Services.AddTransient<ISUNATFEXMLEspacioNombreTagRepo, SUNATFEXMLEspacioNombreTagRepo>();
@@ -39,10 +40,24 @@ builder.Services.AddTransient<ISUNATFEXMLEspacioNombreTagRepo, SUNATFEXMLEspacio
 builder.Services.AddTransient<IApiEndPointRepo, ApiEndPointRepo>();
 builder.Services.AddTransient<IOauthAccessTokenRepo, OauthAccessTokenRepo>();
 builder.Services.AddTransient<ISUNAT_FE_ComprobanteRepo, SUNAT_FE_ComprobanteRepo>();
+builder.Services.AddTransient<ISistemaUsuarioRepo, SistemaUsuarioRepo>();
+builder.Services.AddTransient<IEmailConfigRepo, EmailConfigRepo>();
+builder.Services.AddTransient<ItdHTMLRepo, tdHTMLRepo>();
+
+
+builder.Services.AddTransient<IApiUtil, ApiUtil>();
+builder.Services.AddTransient<IEmailService, EmailService>();
+
 
 builder.Services.AddTransient<IFEServices, FEServices>();
-builder.Services.AddTransient<IApiUtil, ApiUtil>();
 builder.Services.AddTransient<IEmpresaService, EmpresaService>();
+builder.Services.AddTransient<ISistemaUsuarioService, SistemaUsuarioService>();
+builder.Services.AddTransient<ISUNAT_FE_ComprobanteService, SUNAT_FE_ComprobanteService>();
+builder.Services.AddTransient<IEmailConfigService, EmailConfigService>();
+builder.Services.AddTransient<ItdHTMLService, tdHTMLService>();
+
+
+#endregion INYECION_DEPENDECIA
 
 
 //Profiles

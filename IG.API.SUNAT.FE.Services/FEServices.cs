@@ -229,13 +229,14 @@ namespace IG.API.SUNAT.FE.Services
 
                 try
                 {
+                    var tipo = request.TipoDocumento.ToLower();
                     var xml = string.Empty;
                     if (request.TipoArchivo == "zip")
                     {
                       var  _descomprimir =  await _apiUtil.DescomprimirXmlAndToBase64Async(request.Base64);
                         xml = _descomprimir.Text;
                     }
-                    else if(request.TipoArchivo == "zip")
+                    else if(request.TipoArchivo == "xml")
                     {
                         xml = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(request.Base64));
                     }

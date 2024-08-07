@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v7.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v7.0": {
+      "IG.API.SUNAT.FE.Entity/1.0.0": {
+        "runtime": {
+          "IG.API.SUNAT.FE.Entity.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "IG.API.SUNAT.FE.Entity/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

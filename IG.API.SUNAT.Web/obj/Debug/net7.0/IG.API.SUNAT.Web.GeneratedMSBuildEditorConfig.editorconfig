@@ -34,26 +34,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXV0aFxVc2Vyc2Vzc2lvbi5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Proyectos/NET/C\#/IG.API/IG.API.SUNAT.Web/Pages/ComboEjemplo/CategoryForm.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tYm9FamVtcGxvXENhdGVnb3J5Rm9ybS5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/Proyectos/NET/C\#/IG.API/IG.API.SUNAT.Web/Pages/ComboEjemplo/CategorySelect.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tYm9FamVtcGxvXENhdGVnb3J5U2VsZWN0LnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/Proyectos/NET/C\#/IG.API/IG.API.SUNAT.Web/Pages/ComboEjemplo/MyFormOne.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tYm9FamVtcGxvXE15Rm9ybU9uZS5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/Proyectos/NET/C\#/IG.API/IG.API.SUNAT.Web/Pages/ComboEjemplo/MyFormTwo.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tYm9FamVtcGxvXE15Rm9ybVR3by5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/Proyectos/NET/C\#/IG.API/IG.API.SUNAT.Web/Pages/ComboEjemplo/MySelect.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tYm9FamVtcGxvXE15U2VsZWN0LnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
 [D:/Proyectos/NET/C\#/IG.API/IG.API.SUNAT.Web/Pages/Combos/EmpresaSelect.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tYm9zXEVtcHJlc2FTZWxlY3QucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 

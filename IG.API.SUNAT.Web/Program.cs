@@ -7,7 +7,6 @@ using IG.API.SUNAT.FE.Services;
 using IG.API.SUNAT.FE.Services.Profiles;
 using IG.API.SUNAT.FE.Services.Util;
 using IG.API.SUNAT.Web.Auth;
-using IG.API.SUNAT.Web.Pages.ComboEjemplo;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +33,7 @@ builder.Services.AddDbContext<IGAPIFEAppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+#region INYECION_DEPENDECIA
 builder.Services.AddTransient<IFnDb, FnDb>();
 builder.Services.AddTransient<IMaeEmpresaRepo, MaeEmpresaRepo>();
 builder.Services.AddTransient<ISUNATFEXMLEspacioNombreTagRepo, SUNATFEXMLEspacioNombreTagRepo>();
@@ -43,7 +43,7 @@ builder.Services.AddTransient<IOauthAccessTokenRepo, OauthAccessTokenRepo>();
 builder.Services.AddTransient<ISUNAT_FE_ComprobanteRepo, SUNAT_FE_ComprobanteRepo>();
 builder.Services.AddTransient<ISistemaUsuarioRepo, SistemaUsuarioRepo>();
 builder.Services.AddTransient<IEmailConfigRepo, EmailConfigRepo>();
-builder.Services.AddTransient<ItdHTMLRepo , tdHTMLRepo>();
+builder.Services.AddTransient<ItdHTMLRepo, tdHTMLRepo>();
 
 
 builder.Services.AddTransient<IApiUtil, ApiUtil>();
@@ -58,7 +58,7 @@ builder.Services.AddTransient<IEmailConfigService, EmailConfigService>();
 builder.Services.AddTransient<ItdHTMLService, tdHTMLService>();
 
 
-builder.Services.AddSingleton<ICategoryService, CategoryService>();
+#endregion INYECION_DEPENDECIA
 
 //Profiles
 builder.Services.AddAutoMapper(config =>
