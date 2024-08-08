@@ -14,10 +14,13 @@ namespace API.API.SUNAT.Xml.FE
         public double TotalValorBase { get; set; }
         public double PrecioUnitario { get; set; }
         public string ValorReferencialUnitario { get; set; }
-        public double MontoDescuento { get; set; }
-        public double PorcDescuento { get; set; }
-        public double MontoBaseDescuento { get; set; }
+
+        //public string CodDescuento { get; set; }
+        //public double MontoDescuento { get; set; }
+        //public double PorcDescuento { get; set; }
+        //public double MontoBaseDescuento { get; set; }
         public double MontoImpuestos { get; set; }
+        public FECargoDescuento CargoDescuento{ get; set; }
         //public double MontoIgv { get; set; }
         //public string CodAfectacionIGV { get; set; }
         //public int MontoBaseISC { get; set; }
@@ -66,6 +69,7 @@ namespace API.API.SUNAT.Xml.FE
                 Impuestos.Add(new FEImpuestos(taxSubtotal));
             }
 
+            CargoDescuento =     new FECargoDescuento(line.AllowanceCharge);
 
             Descripcion = line.Item?.Description;
             CodProducto = line.Item?.SellersItemIdentification?.ID?.Value;

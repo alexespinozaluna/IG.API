@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("API.API.SUNAT.Xml")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eca259073acc98ca3cf80f36fc063b296a1c0c65")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f96c08a105d310e743848d3f79ad6428d82a28c6")]
 [assembly: System.Reflection.AssemblyProductAttribute("API.API.SUNAT.Xml")]
 [assembly: System.Reflection.AssemblyTitleAttribute("API.API.SUNAT.Xml")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

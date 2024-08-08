@@ -1,12 +1,5 @@
-D:\Proyectos\NET\C#\IG.API\API.API.SUNAT.Xml\bin\Debug\net7.0\API.API.SUNAT.Xml.deps.json
-D:\Proyectos\NET\C#\IG.API\API.API.SUNAT.Xml\bin\Debug\net7.0\API.API.SUNAT.Xml.dll
-D:\Proyectos\NET\C#\IG.API\API.API.SUNAT.Xml\bin\Debug\net7.0\API.API.SUNAT.Xml.pdb
 D:\Proyectos\NET\C#\IG.API\API.API.SUNAT.Xml\obj\Debug\net7.0\API.API.SUNAT.Xml.GeneratedMSBuildEditorConfig.editorconfig
 D:\Proyectos\NET\C#\IG.API\API.API.SUNAT.Xml\obj\Debug\net7.0\API.API.SUNAT.Xml.AssemblyInfoInputs.cache
 D:\Proyectos\NET\C#\IG.API\API.API.SUNAT.Xml\obj\Debug\net7.0\API.API.SUNAT.Xml.AssemblyInfo.cs
 D:\Proyectos\NET\C#\IG.API\API.API.SUNAT.Xml\obj\Debug\net7.0\API.API.SUNAT.Xml.csproj.CoreCompileInputs.cache
 D:\Proyectos\NET\C#\IG.API\API.API.SUNAT.Xml\obj\Debug\net7.0\API.API.SUNAT.Xml.sourcelink.json
-D:\Proyectos\NET\C#\IG.API\API.API.SUNAT.Xml\obj\Debug\net7.0\API.API.SUNAT.Xml.dll
-D:\Proyectos\NET\C#\IG.API\API.API.SUNAT.Xml\obj\Debug\net7.0\refint\API.API.SUNAT.Xml.dll
-D:\Proyectos\NET\C#\IG.API\API.API.SUNAT.Xml\obj\Debug\net7.0\API.API.SUNAT.Xml.pdb
-D:\Proyectos\NET\C#\IG.API\API.API.SUNAT.Xml\obj\Debug\net7.0\ref\API.API.SUNAT.Xml.dll

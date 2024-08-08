@@ -11,7 +11,8 @@ namespace API.API.SUNAT.Xml.Base
         [XmlElement(ElementName = "PricingReference", Namespace = UBLNamespaces.cac)]
         public PricingReference PricingReference { get; set; }
 
-
+        [XmlElement(ElementName = "AllowanceCharge", Namespace = UBLNamespaces.cac)]
+        public AllowanceCharge AllowanceCharge { get; set; }
         [XmlElement(ElementName = "LineExtensionAmount", Namespace = UBLNamespaces.cbc)]
         public double LineExtensionAmount { get; set; }
 

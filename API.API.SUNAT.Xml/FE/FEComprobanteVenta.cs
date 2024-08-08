@@ -1,4 +1,4 @@
-﻿namespace API.API.SUNAT.Xml.FE
+namespace API.API.SUNAT.Xml.FE
 {
     public class FEComprobanteVenta : FENotas
     {
@@ -14,11 +14,12 @@
         public int Cantidad_Item { get; set; }
         public string? NumOrdenCompra { get; set; }
         public string TipoMoneda { get; set; }
+        public List<FEDocumentosRef> DocumentosRefs { get; set; } = new List<FEDocumentosRef>();
         public FEPersona Emisor { get; set; }
         public FEPersona Cliente { get; set; }
+
+        public List<FECreditoCuotas> CreditoCuotas { get; set; } = new List<FECreditoCuotas>();
         public double TotalImpuestos { get; set; }
-        public List<FECondicionesPago> CondicionesPagos { get; set; } = new List<FECondicionesPago>();
-        public FECargoDescuento CargoDescuento { get; set; } 
         public List<FEImpuestos> Impuestos { get; set; } = new List<FEImpuestos>();
         public double DescuentosGlobales { get; set; }
         public double TotalAnticipo { get; set; }
@@ -30,20 +31,20 @@
         public double? TotalValorVenta { get; set; }
         public double? TotalPrecioVenta { get; set; }
         public double? MontoRedondeo { get; set; }
-        //public string FormaDePago { get; set; }
+        public string FormaDePago { get; set; }
         public string? Det_Cod_Medio_Pago { get; set; }
         public string? Det_Num_Banco { get; set; }
-        //public string? Det_Codigo { get; set; }
-        //public double? Det_Monto_Afecto { get; set; }
-        //public double? Det_Tasa { get; set; }
-        //public string? Det_Moneda { get; set; }
-        //public double? Det_Monto { get; set; }
+        public string? Det_Codigo { get; set; }
+        public double? Det_Monto_Afecto { get; set; }
+        public double? Det_Tasa { get; set; }
+        public string? Det_Moneda { get; set; }
+        public double? Det_Monto { get; set; }
         public string? Ret_Codigo { get; set; }
         public double? Ret_Factor { get; set; }
         public double? Ret_Monto { get; set; }
         public double? Ret_Monto_Afecto { get; set; }
         public double? Ret_Neto_Pagar { get; set; }
-        //public string? CorreoCliente { get; set; }
+        public string? CorreoCliente { get; set; }
         public string? NumSerieCorrelativoMod { get; set; }
         public string? CodTipoDocumentoMod { get; set; }
         public string? CodTipoNota { get; set; }
@@ -58,8 +59,7 @@
         public FEComprobanteVenta(BaseDocument baseDoc)
         {
 
-            //ProcessPaymentTerms(baseDoc.PaymentTerms, out var paymentTermsDet, out var paymentTermsFp);
-         
+            // ProcessPaymentTerms(baseDoc.PaymentTerms, out var paymentTermsDet, out var paymentTermsFp);
 
             // Asignar propiedades
             VerUBL = baseDoc.UBLVersionID;
@@ -105,37 +105,79 @@
 
             NumOrdenCompra = baseDoc?.OrderReference?.ID?.Value;
 
-            //Medio de pago
-            var paymentMeans = baseDoc?.PaymentMeans;
-            if (paymentMeans != null)
+            var _docRefs = baseDoc?.AdditionalDocumentReference;
+            if (_docRefs != null && _docRefs.Any())
             {
-                Det_Cod_Medio_Pago = paymentMeans.PaymentMeansCode;
-                Det_Num_Banco = paymentMeans?.PayeeFinancialAccount?.ID?.Value;
+                var _docRefAnt = baseDoc?.PrepaidPayments;
+
+                var _docRefList = (from docRef in _docRefs
+                                   join prePay in _docRefAnt
+                                   on docRef.DocumentStatusCode.ToLower() equals prePay.ID.Value.ToLower()
+                                   into list
+                                   from prePay in list.DefaultIfEmpty()
+                                   select new FEDocumentosRef
+                                   {
+                                       TipoRef = docRef.ID.Value,
+                                       CodTipo = docRef.DocumentTypeCode,
+                                       Identificador = docRef.DocumentStatusCode,
+                                       ImporteAnticipo = prePay.PaidAmount,
+                                       FechaAnticipo = prePay.PaidDate
+                                   }).ToList();
+                DocumentosRefs = _docRefList;
             }
 
-            // Asignar propiedades de Formas de pago
-            foreach ( var payment in baseDoc.PaymentTerms)
-            {
-                CondicionesPagos.Add( new FECondicionesPago(payment));
-
-            }
-           
-            //Cargo/ Descuento
-            CargoDescuento = new FECargoDescuento(baseDoc.AllowanceCharge); 
-
-            //Detracion
-            //Det_Monto_Afecto = double.TryParse(paymentTermsDet?.Note?.Value, out var detMontoAfecto) ? (double?)detMontoAfecto : null;
-            //Det_Tasa = paymentTermsDet?.PaymentPercent;
-            //Det_Moneda = paymentTermsDet?.Amount?.CurrencyID;
-            //Det_Monto = paymentTermsDet?.Amount?.Value;
-            
             Emisor = new FEEmisor(baseDoc.AccountingSupplierParty);
             Cliente = new FECliente(baseDoc.AccountingCustomerParty);
 
-            //if (paymentTermsFp.Any())
-            //{
-            //    FormaDePago = paymentTermsFp[0].PaymentMeansID;
-            //}
+
+
+            // Asignar propiedades de medios de pago - Detraccion
+            var paymentMeans = baseDoc?.PaymentMeans;
+            if (paymentMeans != null)
+            {
+                var paymentMeansID = paymentMeans.ID.Value.ToLower();
+
+                // Encontrar el primer elemento en PaymentTerms con ID = "Detraccion"
+                var paymentTerm = baseDoc.PaymentTerms.FirstOrDefault(
+                    pt => pt.ID.Value.ToLower() == paymentMeansID
+                    );
+
+                Det_Cod_Medio_Pago = paymentMeans.PaymentMeansCode;
+                Det_Num_Banco = paymentMeans?.PayeeFinancialAccount?.ID?.Value;
+                Det_Codigo = paymentTerm?.PaymentMeansID;
+                Det_Monto_Afecto = double.TryParse(paymentTerm?.Note?.Value, out double montoAfecto) ? montoAfecto : null;
+                Det_Tasa = paymentTerm?.PaymentPercent;
+                Det_Moneda = paymentTerm?.Amount?.CurrencyID;
+                Det_Monto = paymentTerm?.Amount?.Value;
+
+                baseDoc.PaymentTerms.Remove(paymentTerm);
+            }
+
+            // Encontrar el objeto en PaymentTerms que coincida con las condiciones
+            var paymentTermFP = baseDoc?.PaymentTerms.FirstOrDefault(pt =>
+                (pt.ID.Value.ToLower() == "FormaPago".ToLower() &&
+                pt.PaymentMeansID.ToLower() == "Contado".ToLower())
+                ||
+                (pt.ID.Value.ToLower() == "FormaPago".ToLower() &&
+                pt.PaymentMeansID.ToLower() == "Credito".ToLower()));
+
+            FormaDePago = paymentTermFP.PaymentMeansID;
+            // Eliminar el objeto encontrado de la lista
+            if (paymentTermFP != null)
+            {
+                baseDoc.PaymentTerms.Remove(paymentTermFP);
+            }
+
+            var _creditoCuotas = baseDoc?.PaymentTerms;
+            if (_creditoCuotas?.Any() == true)
+            {
+                foreach (var couta in _creditoCuotas)
+                {
+                    CreditoCuotas.Add(new FECreditoCuotas());
+                }
+            }
+
+
 
             TotalImpuestos = baseDoc.TaxTotal.TaxAmount;
             foreach (var taxSubtotal in baseDoc.TaxTotal.TaxSubtotals)
@@ -154,7 +196,7 @@
 
 
 
-            // Procesar líneas
+            // Procesar l�neas
 
             var _invoiceLine = baseDoc.InvoiceLines;
             var _crediLIne = baseDoc.CreditNoteLines;
@@ -173,24 +215,22 @@
             }
 
         }
-        /*
-        private void ProcessPaymentTerms(List<PaymentTerms> paymentTerms, out PaymentTerms paymentTermsDet, out List<PaymentTerms> paymentTermsFp)
-        {
-            paymentTermsDet = new PaymentTerms();
-            paymentTermsFp = new List<PaymentTerms>();
-            foreach (var item in paymentTerms)
-            {
-                if (item.ID.Value == "Detraccion")
-                {
-                    paymentTermsDet = item;
-                }
-                else
-                {
-                    paymentTermsFp.Add(item);
-                }
-            }
-        }
-        */
+        /* private void ProcessPaymentTerms(List<PaymentTerms> paymentTerms, out PaymentTerms paymentTermsDet, out List<PaymentTerms> paymentTermsFp)
+         {
+             paymentTermsDet = new PaymentTerms();
+             paymentTermsFp = new List<PaymentTerms>();
+             foreach (var item in paymentTerms)
+             {
+                 if (item.ID.Value == "Detraccion")
+                 {
+                     paymentTermsDet = item;
+                 }
+                 else
+                 {
+                     paymentTermsFp.Add(item);
+                 }
+             }
+         }*/
 
     }
 }

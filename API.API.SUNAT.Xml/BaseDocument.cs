@@ -65,6 +65,8 @@ namespace API.API.SUNAT.Xml
         public List<PaymentTerms> PaymentTerms { get; set; }
         [XmlElement(ElementName = "AllowanceCharge", Namespace = UBLNamespaces.cac)]
         public AllowanceCharge AllowanceCharge { get; set; }
+        [XmlElement(ElementName = "PrepaidPayment", Namespace = UBLNamespaces.cac)]
+        public List<PrepaidPayment> PrepaidPayments { get; set; }
 
         [XmlElement(ElementName = "TaxTotal", Namespace = UBLNamespaces.cac)]
         public TaxTotal TaxTotal { get; set; }
@@ -79,6 +81,14 @@ namespace API.API.SUNAT.Xml
 
     }
 
+    public class PrepaidPayment : BaseID
+    {
+        [XmlElement(ElementName = "PaidAmount", Namespace = UBLNamespaces.cbc)]
+        public double? PaidAmount { get; set; }
+        [XmlElement(ElementName = "PaidDate", Namespace = UBLNamespaces.cbc)]
+        public string? PaidDate { get; set; }
+    }
+
     public class AllowanceCharge
     {
         [XmlElement(ElementName = "ChargeIndicator", Namespace = UBLNamespaces.cbc)]
@@ -89,7 +99,7 @@ namespace API.API.SUNAT.Xml
         public double MultiplierFactorNumeric { get; set; }
         [XmlElement(ElementName = "Amount", Namespace = UBLNamespaces.cbc)]
         public Amount Amount { get; set; }
-        [XmlElement(ElementName = "BaseAmount", Namespace =UBLNamespaces.cbc)]
+        [XmlElement(ElementName = "BaseAmount", Namespace = UBLNamespaces.cbc)]
         public double BaseAmount { get; set; }
     }
 
@@ -109,7 +119,7 @@ namespace API.API.SUNAT.Xml
         public InvoiceDocumentReference InvoiceDocumentReference { get; set; }
     }
 
-    public class InvoiceDocumentReference:BaseID
+    public class InvoiceDocumentReference : BaseID
     {
         [XmlElement(ElementName = "IssueDate", Namespace = UBLNamespaces.cbc)]
         public string IssueDate { get; set; }
@@ -134,9 +144,6 @@ namespace API.API.SUNAT.Xml
 
     public class AdditionalDocumentReference : BaseID
     {
-
-
-
         [XmlElement(ElementName = "DocumentTypeCode", Namespace = UBLNamespaces.cbc)]
         public string DocumentTypeCode { get; set; }
 
@@ -196,7 +203,7 @@ namespace API.API.SUNAT.Xml
     {
         public Invoice() : base(UBLNamespaces.xmlnsInvoice) { }
 
-   
+
     }
 
     [XmlRoot(ElementName = "CreditNote", Namespace = UBLNamespaces.xmlnsCreditNote)]
@@ -204,7 +211,7 @@ namespace API.API.SUNAT.Xml
     {
         public CreditNote() : base(UBLNamespaces.xmlnsCreditNote) { }
 
-        
+
     }
 
     [XmlRoot(ElementName = "DebitNote", Namespace = UBLNamespaces.xmlnsDebitNote)]
@@ -212,6 +219,6 @@ namespace API.API.SUNAT.Xml
     {
         public DebitNote() : base(UBLNamespaces.xmlnsDebitNote) { }
 
-     
+
     }
 }

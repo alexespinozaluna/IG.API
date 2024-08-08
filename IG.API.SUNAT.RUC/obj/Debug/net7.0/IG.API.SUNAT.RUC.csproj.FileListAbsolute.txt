@@ -1,0 +1,7 @@
+D:\Proyectos\NET\C#\IG.API\IG.API.SUNAT.RUC\obj\Debug\net7.0\IG.API.SUNAT.RUC.csproj.AssemblyReference.cache
+D:\Proyectos\NET\C#\IG.API\IG.API.SUNAT.RUC\obj\Debug\net7.0\IG.API.SUNAT.RUC.GeneratedMSBuildEditorConfig.editorconfig
+D:\Proyectos\NET\C#\IG.API\IG.API.SUNAT.RUC\obj\Debug\net7.0\IG.API.SUNAT.RUC.AssemblyInfoInputs.cache
+D:\Proyectos\NET\C#\IG.API\IG.API.SUNAT.RUC\obj\Debug\net7.0\IG.API.SUNAT.RUC.AssemblyInfo.cs
+D:\Proyectos\NET\C#\IG.API\IG.API.SUNAT.RUC\obj\Debug\net7.0\IG.API.SUNAT.RUC.csproj.CoreCompileInputs.cache
+D:\Proyectos\NET\C#\IG.API\IG.API.SUNAT.RUC\obj\Debug\net7.0\IG.API.SUNAT.RUC.MvcApplicationPartsAssemblyInfo.cache
+D:\Proyectos\NET\C#\IG.API\IG.API.SUNAT.RUC\obj\Debug\net7.0\IG.API.SUNAT.RUC.sourcelink.json

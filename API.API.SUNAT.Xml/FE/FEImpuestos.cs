@@ -9,6 +9,7 @@
         public double MontoBase { get; set; }
         public double MontoImpuesto { get; set; }
         public double? Porcentaje { get; set; }
+        public string? CodISC { get; set; }
         public string CodAfectacionIGV { get; set; }
         public string? CodigoTipo { get; set; }
 
@@ -23,6 +24,7 @@
             MontoImpuesto = taxSubtotal.TaxAmount;
 
             Porcentaje = taxCategory.Percent;
+            CodISC = taxCategory?.TierRange;
             CodAfectacionIGV = taxCategory.TaxExemptionReasonCode;
 
 

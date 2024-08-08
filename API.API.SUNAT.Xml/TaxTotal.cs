@@ -41,6 +41,8 @@ namespace API.API.SUNAT.Xml
     {
         [XmlElement(ElementName = "Percent", Namespace = UBLNamespaces.cbc)]
         public double Percent { get; set; }
+        [XmlElement(ElementName = "TierRange", Namespace = UBLNamespaces.cbc)]
+        public string TierRange { get; set; }
         [XmlElement(ElementName = "TaxExemptionReasonCode", Namespace = UBLNamespaces.cbc)]
         public string TaxExemptionReasonCode { get; set; }
         [XmlElement(ElementName = "PerUnitAmount", Namespace = UBLNamespaces.cbc)]
